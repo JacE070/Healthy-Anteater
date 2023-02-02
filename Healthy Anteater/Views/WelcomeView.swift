@@ -27,6 +27,7 @@ struct WelcomeView: View {
                     .padding(.bottom, 70.0)
                     .padding(.top, 30)
             }
+            Spacer()
             // TODO: Should use navigationlink, but should be under navigationview
             Button("Get Started") {
                 

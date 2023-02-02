@@ -37,7 +37,6 @@
 		43F17AD829837FC400B2989B = {
 			isa = PBXGroup;
 			children = (
-				43F17AF8298B961800B2989B /* InitializationView.swift */,
 				43F17AE329837FC400B2989B /* Healthy Anteater */,
 				43F17AE229837FC400B2989B /* Products */,
 			);
@@ -74,6 +73,7 @@
 		43F17AF4298B8E9200B2989B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				43F17AF8298B961800B2989B /* InitializationView.swift */,
 				43F17AE629837FC400B2989B /* WelcomeView.swift */,
 			);
 			path = Views;

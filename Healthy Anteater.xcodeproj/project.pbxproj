@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */; };
-		43F17AE729837FC400B2989B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE629837FC400B2989B /* ContentView.swift */; };
+		43F17AE729837FC400B2989B /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE629837FC400B2989B /* WelcomeView.swift */; };
 		43F17AE929837FC600B2989B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F17AE829837FC600B2989B /* Assets.xcassets */; };
 		43F17AEC29837FC600B2989B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F17AEB29837FC600B2989B /* Preview Assets.xcassets */; };
+		43F17AF9298B961800B2989B /* InitializationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AF8298B961800B2989B /* InitializationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		43F17AE129837FC400B2989B /* Healthy Anteater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Healthy Anteater.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Healthy_AnteaterApp.swift; sourceTree = "<group>"; };
-		43F17AE629837FC400B2989B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		43F17AE629837FC400B2989B /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		43F17AE829837FC600B2989B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43F17AEB29837FC600B2989B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		43F17AF8298B961800B2989B /* InitializationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +37,7 @@
 		43F17AD829837FC400B2989B = {
 			isa = PBXGroup;
 			children = (
+				43F17AF8298B961800B2989B /* InitializationView.swift */,
 				43F17AE329837FC400B2989B /* Healthy Anteater */,
 				43F17AE229837FC400B2989B /* Products */,
 			);
@@ -51,8 +54,9 @@
 		43F17AE329837FC400B2989B /* Healthy Anteater */ = {
 			isa = PBXGroup;
 			children = (
+				43F17AF7298B8FD700B2989B /* Models */,
 				43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */,
-				43F17AE629837FC400B2989B /* ContentView.swift */,
+				43F17AF4298B8E9200B2989B /* Views */,
 				43F17AE829837FC600B2989B /* Assets.xcassets */,
 				43F17AEA29837FC600B2989B /* Preview Content */,
 			);
@@ -65,6 +69,21 @@
 				43F17AEB29837FC600B2989B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		43F17AF4298B8E9200B2989B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				43F17AE629837FC400B2989B /* WelcomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		43F17AF7298B8FD700B2989B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43F17AE729837FC400B2989B /* ContentView.swift in Sources */,
+				43F17AE729837FC400B2989B /* WelcomeView.swift in Sources */,
 				43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */,
+				43F17AF9298B961800B2989B /* InitializationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

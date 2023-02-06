@@ -11,8 +11,7 @@ import SwiftUI
 struct Healthy_AnteaterApp: App {
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
-            InitializationView()
+            MainView()
         }
     }
 }

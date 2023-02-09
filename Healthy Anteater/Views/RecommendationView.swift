@@ -11,10 +11,22 @@ struct RecommendationView: View {
     var body: some View {
         VStack(){
             Image("image_placeholder")
-            Text("Welcome")
-            Text("are you ready to be an Healthy Anteater?")
-            Text("A healthy lifestyle...")
-            RecommendationListView()
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding(30)
+            VStack(alignment: .leading){
+//                Text("Welcome")
+//                    .font(.title)
+//                    .fontWeight(.heavy)
+//                Text("are you ready to be an Healthy Anteater?")
+//                    .font(.title2)
+//                Text("A healthy lifestyle is the first step towars success; improve your health index by using the Healthy Anteater App!")
+                Text("Here are recommendations we prepare for you!")
+                    .font(.headline)
+                    .fontWeight(.medium)
+            }.padding(.horizontal, 30.0)
+            Spacer();
+            RecommendationList()
         }
     }
 }
@@ -25,14 +37,25 @@ struct RecommendationView_Previews: PreviewProvider {
     }
 }
 
-struct RecommendationListView: View {
+struct RecommendationList: View {
+    let sampleRecList = [
+        RecommendationItem(name: "Eat food 1"),
+        RecommendationItem(name: "Eat food 2"),
+        RecommendationItem(name: "Eat food 3"),
+        RecommendationItem(name: "Eat food 4"),
+    ]
     var body: some View {
-        Text("Rec List")
-    }
-}
-
-struct RecommendationItemView: View {
-    var body: some View {
-        Text("Rec Item")
+        List(sampleRecList) { row in
+            HStack(){
+                Text(row.name)
+                
+                Spacer()
+                Button("Finish"){
+                    // Call method in Manager to update data
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }.scrollContentBackground(.hidden)
+        
     }
 }

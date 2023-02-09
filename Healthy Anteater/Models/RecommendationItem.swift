@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct RecommendationItem: Identifiable {
+    let id = UUID()
+    let name: String
+}

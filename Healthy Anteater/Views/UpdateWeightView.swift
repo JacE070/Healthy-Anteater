@@ -54,7 +54,7 @@ struct UpdateWeightView: View {
             }.padding(.bottom, 50)
             
             Spacer()
-            Button("Continue") {
+            Button("Submit") {
                 if (Manager.checkUpdateWeight(gender: gender, age: age, weight: weight, height: height)){
                     // Update
                     // Go back

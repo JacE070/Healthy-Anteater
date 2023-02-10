@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct AddDataView: View {
+    let name = "Evan"
     var body: some View {
         NavigationView{
             ZStack{

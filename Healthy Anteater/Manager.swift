@@ -17,6 +17,19 @@ class Manager {
     func getStarted() {
         started = true;
     }
+    
+    static func checkUpdateWeight(gender: String, age: Int?, weight: Double?, height: Double?) -> Bool {
+        if (age == nil || weight == nil || height == nil){
+            return false
+        }
+        if (gender == "Required") {
+            return false
+        }
+        if (age! < 0 || weight! < 0 || height! < 0){
+            return false
+        }
+        return true
+    }
 }
 
 let manager = Manager()

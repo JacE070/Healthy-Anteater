@@ -32,10 +32,12 @@ struct MainView: View {
                 .tabItem {
                     Label("Profile", systemImage: "person")
                 }
+            
             AddDataView()
                 .tabItem {
                     Label("Add Data", systemImage: "pencil")
                 }
+             
             
         }
     }

@@ -2,56 +2,63 @@
 //  AddDataView.swift
 //  Healthy Anteater
 //
-//  Created by JacEL on 2/8/23.
+//  Created by Haoran Li on 2/9/23.
 //
 
+
+import Foundation
 import SwiftUI
 
 struct AddDataView: View {
     let name = "Evan"
     var body: some View {
         NavigationView{
-            VStack(){
-                VStack(alignment:.leading){
-                    Image("image_placeholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(30)
-                    Text("Hi \(name),\nLet us know about your day")
+            ZStack{
+                Color(UIColor(red: 0.783, green: 0.906, blue: 0.958, alpha: 1))
+                .edgesIgnoringSafeArea(.all)
+                VStack(alignment: .center) {
+                    VStack(alignment: .leading) {
+                        Image("undraw_My_answer_re_k4dv")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(70.0)
+                            
+                        Text("Hi Evan, ")
+                            .font(.title)
+                            .fontWeight(.heavy)
+                        Text("Let us know about your day.")
+                            .font(.subheadline)
+                            .fontWeight(.heavy)
+                    }
+
+                    NavigationLink(destination: Comfirmation(), label:{
+                       Text("Food Preference")
+                    })
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                    NavigationLink(destination: Comfirmation(), label:{
+                       Text("Update Weight    ")
+                    })
+                    .padding(.all)
+                    .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                    NavigationLink(destination: Comfirmation(), label:{
+                       Text("Update Target     ")
+                    })
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                 }
-                .frame(maxWidth: 300)
-                Spacer()
-                NavigationLink{
-                    
-                } label: {
-                    Text("Food Preference")
-                        .frame(maxWidth: 300, maxHeight: 50)
-                }
-                .buttonStyle(.borderedProminent)
-                Spacer()
-                NavigationLink{
-                    UpdateWeightView()
-                } label: {
-                    Text("Update Weight")
-                        .frame(maxWidth: 300, maxHeight: 50)
-                }
-                .buttonStyle(.borderedProminent)
-                Spacer()
-                NavigationLink{
-                    UpdateTargetView()
-                } label: {
-                    Text("Update Target")
-                        .frame(maxWidth: 300, maxHeight: 50)
-                }
-                .buttonStyle(.borderedProminent)
-                Spacer()
+                .padding(.horizontal, 35.0)
             }
         }
     }
 }
 
-struct AddDataView_Previews: PreviewProvider {
+struct AddDataView_preview: PreviewProvider {
     static var previews: some View {
         AddDataView()
     }
 }
+

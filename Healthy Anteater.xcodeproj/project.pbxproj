@@ -12,6 +12,9 @@
 		43B967BE2990D2E3005B42DB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967BD2990D2E3005B42DB /* MainView.swift */; };
 		43B967C02990D743005B42DB /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967BF2990D743005B42DB /* Manager.swift */; };
 		43B967C22990DC18005B42DB /* RecommendationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967C12990DC18005B42DB /* RecommendationItem.swift */; };
+		43BF47E42994B1E9005DE212 /* AddDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E32994B1E9005DE212 /* AddDataView.swift */; };
+		43BF47E62994B60A005DE212 /* UpdateWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E52994B60A005DE212 /* UpdateWeightView.swift */; };
+		43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E72994B614005DE212 /* UpdateTargetView.swift */; };
 		43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */; };
 		43F17AE729837FC400B2989B /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE629837FC400B2989B /* WelcomeView.swift */; };
 		43F17AE929837FC600B2989B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F17AE829837FC600B2989B /* Assets.xcassets */; };
@@ -24,6 +27,9 @@
 		43B967BD2990D2E3005B42DB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		43B967BF2990D743005B42DB /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		43B967C12990DC18005B42DB /* RecommendationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationItem.swift; sourceTree = "<group>"; };
+		43BF47E32994B1E9005DE212 /* AddDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
+		43BF47E52994B60A005DE212 /* UpdateWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWeightView.swift; sourceTree = "<group>"; };
+		43BF47E72994B614005DE212 /* UpdateTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTargetView.swift; sourceTree = "<group>"; };
 		43F17AE129837FC400B2989B /* Healthy Anteater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Healthy Anteater.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Healthy_AnteaterApp.swift; sourceTree = "<group>"; };
 		43F17AE629837FC400B2989B /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -82,9 +88,12 @@
 		43F17AF4298B8E9200B2989B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				43BF47E32994B1E9005DE212 /* AddDataView.swift */,
 				43F17AE629837FC400B2989B /* WelcomeView.swift */,
 				43B967B52990CA2F005B42DB /* ProfileView.swift */,
 				43B967B72990CA5D005B42DB /* RecommendationView.swift */,
+				43BF47E52994B60A005DE212 /* UpdateWeightView.swift */,
+				43BF47E72994B614005DE212 /* UpdateTargetView.swift */,
 				43B967BD2990D2E3005B42DB /* MainView.swift */,
 			);
 			path = Views;
@@ -169,11 +178,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				43B967B62990CA2F005B42DB /* ProfileView.swift in Sources */,
+				43BF47E62994B60A005DE212 /* UpdateWeightView.swift in Sources */,
 				43B967BE2990D2E3005B42DB /* MainView.swift in Sources */,
+				43BF47E42994B1E9005DE212 /* AddDataView.swift in Sources */,
 				43B967C02990D743005B42DB /* Manager.swift in Sources */,
 				43B967C22990DC18005B42DB /* RecommendationItem.swift in Sources */,
 				43F17AE729837FC400B2989B /* WelcomeView.swift in Sources */,
 				43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */,
+				43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */,
 				43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

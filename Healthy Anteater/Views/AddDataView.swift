@@ -31,19 +31,19 @@ struct AddDataView: View {
                             .fontWeight(.heavy)
                     }
 
-                    NavigationLink(destination: Comfirmation(), label:{
+                    NavigationLink(destination: FoodRecording(), label:{
                        Text("Food Preference")
                     })
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                    NavigationLink(destination: Comfirmation(), label:{
+                    NavigationLink(destination: UpdateWeightView(), label:{
                        Text("Update Weight    ")
                     })
                     .padding(.all)
                     .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                    NavigationLink(destination: Comfirmation(), label:{
+                    NavigationLink(destination: UpdateTargetView(), label:{
                        Text("Update Target     ")
                     })
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)

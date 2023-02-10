@@ -9,20 +9,6 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-//        if (!manager.isStarted()) {
-//            WelcomeView()
-//        } else {
-//            TabView {
-//                RecommendationView()
-//                    .tabItem {
-//                        Label("Recommendation", systemImage: "list.bullet")
-//                    }
-//                ProfileView()
-//                    .tabItem {
-//                        Label("Profile", systemImage: "person")
-//                    }
-//            }
-//        }
         TabView {
             RecommendationView()
                 .tabItem {
@@ -37,8 +23,6 @@ struct MainView: View {
                 .tabItem {
                     Label("Add Data", systemImage: "pencil")
                 }
-             
-            
         }
     }
 }

@@ -7,6 +7,9 @@
 
 import Foundation
 
+const mock_api = "https://my.api.mockaroo.com/"
+const mock_api_key = "3a9bab50"
+
 class Manager {
     private var started = false;
     

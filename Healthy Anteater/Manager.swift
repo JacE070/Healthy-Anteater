@@ -10,12 +10,14 @@ import Foundation
 let FAKE_URL_ENDPOINT = "https://my.api.mockaroo.com?key=3a9bab50"
 var fake_api = URLComponents(url: URL(string: FAKE_URL_ENDPOINT)!, resolvingAgainstBaseURL: true)
 
-func makeURL(path: String) -> String {
+func makeRequest(path: String, method: String) -> URLRequest {
     // Example
     // path = /food
     // return: https://my.api.com/food
     fake_api?.path = path
-    return (fake_api?.string!)!
+    let request = NSMutableURLRequest(url: fake_api!.url!)
+    request.httpMethod = method
+    return request as URLRequest
 }
 
 
@@ -56,8 +58,21 @@ func getUserInfo() {
 //    taken_calories: int
 //    food_list: [Food, ]
     let path = "/info"
-    print(makeURL(path: path))
-    
+    let request = makeRequest(path: path, method: "GET")
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+        if let error = error {
+            // Handle HTTP request error
+            print(error)
+        } else if let data = data {
+            // Handle HTTP request response
+            print(dataToJSON(data: data))
+        } else {
+            // Handle unexpected error
+            print("unexpected error")
+        }
+    }
+    task.resume()
 }
 
 func getFoodList() {
@@ -113,4 +128,13 @@ func updateUserWeight() {
     // target: float
     let path = "/weight"
     
+}
+
+func dataToJSON(data: Data) -> AnyObject? {
+    do {
+        return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject
+    } catch {
+        print(error)
+    }
+    return nil
 }

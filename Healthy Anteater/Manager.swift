@@ -20,7 +20,6 @@ func makeRequest(path: String, method: String) -> URLRequest {
     return request as URLRequest
 }
 
-
 class Manager {
     private var started = false;
     

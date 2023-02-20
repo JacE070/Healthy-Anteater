@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 let FAKE_URL_ENDPOINT = "https://my.api.mockaroo.com?key=3a9bab50"
 var fake_api = URLComponents(url: URL(string: FAKE_URL_ENDPOINT)!, resolvingAgainstBaseURL: true)
@@ -65,7 +66,7 @@ func getUserInfo() {
             print(error)
         } else if let data = data {
             // Handle HTTP request response
-            print(dataToJSON(data: data))
+//            print(dataToJSON(data: data))
         } else {
             // Handle unexpected error
             print("unexpected error")
@@ -85,8 +86,24 @@ func getFoodList() {
 //    contains: [string, ]
 //    checked: false
     let path = "/food"
-    
+    let request = makeRequest(path: path, method: "GET")
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
 
+        if let error = error {
+            // Handle HTTP request error
+            print(error)
+        } else if let data = data {
+            // Handle HTTP request response
+            let json = dataToJSON(data: data)
+//            print(json)
+            let foodList = toFoodList(json: json!)
+            print(foodList)
+        } else {
+            // Handle unexpected error
+            print("unexpected error")
+        }
+    }
+    task.resume()
 }
 
 func finishFoodRec() {
@@ -129,11 +146,20 @@ func updateUserWeight() {
     
 }
 
-func dataToJSON(data: Data) -> AnyObject? {
+func dataToJSON(data: Data) -> [[String: Any]]? {
     do {
-        return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as AnyObject
+        return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
     } catch {
         print(error)
     }
     return nil
+}
+
+func toFoodList(json: [[String: Any]]) -> [Food] {
+    var foodList = [Food]()
+    json.forEach { item in
+        let food = Food(id: item["food_id"] as! Int, name: item["name"] as! String, description: item["description"] as! String, calories: item["calories"] as! Int, contains: [item["contains"] as! String], checked: (item["checked"] != nil))
+        foodList.append(food)
+    }
+    return foodList
 }

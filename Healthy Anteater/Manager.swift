@@ -10,6 +10,7 @@ import SwiftUI
 
 let FAKE_URL_ENDPOINT = "https://my.api.mockaroo.com?key=3a9bab50"
 var fake_api = URLComponents(url: URL(string: FAKE_URL_ENDPOINT)!, resolvingAgainstBaseURL: true)
+var is_mock = true
 
 func makeRequest(path: String, method: String) -> URLRequest {
     // Example
@@ -48,7 +49,7 @@ class Manager {
 
 let manager = Manager()
 
-func getUserInfo() {
+func getUserInfo() async -> UserInfo? {
 //    Get Request
 //    user_id: int
 //    username: string
@@ -59,20 +60,15 @@ func getUserInfo() {
 //    food_list: [Food, ]
     let path = "/info"
     let request = makeRequest(path: path, method: "GET")
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-
-        if let error = error {
-            // Handle HTTP request error
-            print(error)
-        } else if let data = data {
-            // Handle HTTP request response
-//            print(dataToJSON(data: data))
-        } else {
-            // Handle unexpected error
-            print("unexpected error")
-        }
+    do {
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        let userInfo = toUserInfo(json: json!)
+        return userInfo
     }
-    task.resume()
+    catch {
+        return nil
+    }
 }
 
 func getFoodList() async -> [Food] {
@@ -89,7 +85,7 @@ func getFoodList() async -> [Food] {
     let request = makeRequest(path: path, method: "GET")
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
-        let json = dataToJSON(data: data)
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
         let foodList = toFoodList(json: json!)
         return foodList
     }
@@ -138,15 +134,6 @@ func updateUserWeight() {
     
 }
 
-func dataToJSON(data: Data) -> [[String: Any]]? {
-    do {
-        return try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
-    } catch {
-        print(error)
-    }
-    return nil
-}
-
 func toFoodList(json: [[String: Any]]) -> [Food] {
     var foodList = [Food]()
     json.forEach { item in
@@ -154,4 +141,10 @@ func toFoodList(json: [[String: Any]]) -> [Food] {
         foodList.append(food)
     }
     return foodList
+}
+
+func toUserInfo(json: [String: Any]) -> UserInfo {
+    let fake_food_list = [Food(id: 0, name: "Food 1", description: "Food1 Description", calories: 500, contains: ["Peanuts"], checked: false),
+                          Food(id: 1, name: "Food 2", description: "Food2 Description", calories: 500, contains: ["Seafood"], checked: true)]
+    return UserInfo(id: json["user_id"] as! Int, user_name: json["username"] as! String, current_weight: json["current_weight"] as! Double, target_weight: json["target_weight"] as! Double, rec_calories: json["calories_recommended"] as! Int, taken_calories: json["calories_intake"] as! Int, food_list: is_mock ? fake_food_list : toFoodList(json: json["food_list"] as! [[String : Any]]))
 }

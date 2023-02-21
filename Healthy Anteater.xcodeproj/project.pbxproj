@@ -10,11 +10,11 @@
 		2F27E2AF2995D54A00A5E1EC /* Comfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2AE2995D54A00A5E1EC /* Comfirmation.swift */; };
 		2F27E2B12995E3A500A5E1EC /* FoodRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B02995E3A500A5E1EC /* FoodRecording.swift */; };
 		2F27E2B32995FE4900A5E1EC /* AddDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B22995FE4900A5E1EC /* AddDataView.swift */; };
+		4381914B29A48FD800B78C59 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4381914A29A48FD800B78C59 /* Models.swift */; };
 		43B967B62990CA2F005B42DB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967B52990CA2F005B42DB /* ProfileView.swift */; };
 		43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967B72990CA5D005B42DB /* RecommendationView.swift */; };
 		43B967BE2990D2E3005B42DB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967BD2990D2E3005B42DB /* MainView.swift */; };
 		43B967C02990D743005B42DB /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967BF2990D743005B42DB /* Manager.swift */; };
-		43B967C22990DC18005B42DB /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967C12990DC18005B42DB /* Food.swift */; };
 		43BF47E42994B1E9005DE212 /* AddDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E32994B1E9005DE212 /* AddDataView.swift */; };
 		43BF47E62994B60A005DE212 /* UpdateWeightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E52994B60A005DE212 /* UpdateWeightView.swift */; };
 		43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF47E72994B614005DE212 /* UpdateTargetView.swift */; };
@@ -28,11 +28,11 @@
 		2F27E2B02995E3A500A5E1EC /* FoodRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecording.swift; sourceTree = "<group>"; };
 		2F27E2B22995FE4900A5E1EC /* AddDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
 		4381914729A439E700B78C59 /* Healthy-Anteater-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Healthy-Anteater-Info.plist"; sourceTree = SOURCE_ROOT; };
+		4381914A29A48FD800B78C59 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		43B967B52990CA2F005B42DB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		43B967B72990CA5D005B42DB /* RecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
 		43B967BD2990D2E3005B42DB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		43B967BF2990D743005B42DB /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
-		43B967C12990DC18005B42DB /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 		43BF47E32994B1E9005DE212 /* AddDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
 		43BF47E52994B60A005DE212 /* UpdateWeightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWeightView.swift; sourceTree = "<group>"; };
 		43BF47E72994B614005DE212 /* UpdateTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTargetView.swift; sourceTree = "<group>"; };
@@ -73,12 +73,12 @@
 			isa = PBXGroup;
 			children = (
 				4381914729A439E700B78C59 /* Healthy-Anteater-Info.plist */,
-				43F17AF7298B8FD700B2989B /* Models */,
 				43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */,
 				43B967BF2990D743005B42DB /* Manager.swift */,
 				43F17AF4298B8E9200B2989B /* Views */,
 				43F17AE829837FC600B2989B /* Assets.xcassets */,
 				43F17AEA29837FC600B2989B /* Preview Content */,
+				4381914A29A48FD800B78C59 /* Models.swift */,
 			);
 			path = "Healthy Anteater";
 			sourceTree = "<group>";
@@ -105,14 +105,6 @@
 				2F27E2B22995FE4900A5E1EC /* AddDataView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		43F17AF7298B8FD700B2989B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				43B967C12990DC18005B42DB /* Food.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,10 +180,10 @@
 				2F27E2B32995FE4900A5E1EC /* AddDataView.swift in Sources */,
 				43B967B62990CA2F005B42DB /* ProfileView.swift in Sources */,
 				43BF47E62994B60A005DE212 /* UpdateWeightView.swift in Sources */,
+				4381914B29A48FD800B78C59 /* Models.swift in Sources */,
 				43B967BE2990D2E3005B42DB /* MainView.swift in Sources */,
 				43BF47E42994B1E9005DE212 /* AddDataView.swift in Sources */,
 				43B967C02990D743005B42DB /* Manager.swift in Sources */,
-				43B967C22990DC18005B42DB /* Food.swift in Sources */,
 				2F27E2AF2995D54A00A5E1EC /* Comfirmation.swift in Sources */,
 				43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */,
 				43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */,

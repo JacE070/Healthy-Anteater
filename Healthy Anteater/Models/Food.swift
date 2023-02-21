@@ -7,12 +7,7 @@
 
 import Foundation
 
-struct RecommendationItem: Identifiable {
-    let id = UUID()
-    let food: Food
-}
-
-struct Food {
+struct Food: Identifiable {
     let id: Int
     let name: String
     let description: String

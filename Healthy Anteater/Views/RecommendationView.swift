@@ -38,16 +38,11 @@ struct RecommendationView_Previews: PreviewProvider {
 }
 
 struct RecommendationList: View {
-    let sampleRecList = [
-        RecommendationItem(name: "Eat food 1"),
-        RecommendationItem(name: "Eat food 2"),
-        RecommendationItem(name: "Eat food 3"),
-        RecommendationItem(name: "Eat food 4"),
-    ]
+    @State var foodList = [Food]()
     var body: some View {
-        List(sampleRecList) { row in
+        List(foodList) { food in
             HStack(){
-                Text(row.name)
+                Text(food.name)
                 
                 Spacer()
                 Button("Finish"){
@@ -56,6 +51,8 @@ struct RecommendationList: View {
                 .buttonStyle(.borderedProminent)
             }
         }.scrollContentBackground(.hidden)
-        
+            .task {
+                foodList = await getFoodList()
+            }
     }
 }

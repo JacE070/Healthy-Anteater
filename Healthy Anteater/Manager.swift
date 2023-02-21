@@ -75,7 +75,7 @@ func getUserInfo() {
     task.resume()
 }
 
-func getFoodList() {
+func getFoodList() async -> [Food] {
 //    Get Request
 //    food_list: [Food, ]
 //    Food
@@ -87,23 +87,15 @@ func getFoodList() {
 //    checked: false
     let path = "/food"
     let request = makeRequest(path: path, method: "GET")
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-
-        if let error = error {
-            // Handle HTTP request error
-            print(error)
-        } else if let data = data {
-            // Handle HTTP request response
-            let json = dataToJSON(data: data)
-//            print(json)
-            let foodList = toFoodList(json: json!)
-            print(foodList)
-        } else {
-            // Handle unexpected error
-            print("unexpected error")
-        }
+    do {
+        let (data, _) = try await URLSession.shared.data(for: request)
+        let json = dataToJSON(data: data)
+        let foodList = toFoodList(json: json!)
+        return foodList
     }
-    task.resume()
+    catch {
+        return [Food]()
+    }
 }
 
 func finishFoodRec() {

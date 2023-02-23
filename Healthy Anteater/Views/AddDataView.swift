@@ -37,6 +37,18 @@ struct AddDataView: View {
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
                         .controlSize(.large)
+                    NavigationLink(destination: DislikeFood(), label:{
+                       Text("Dislike Food        ")
+                    })
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                    NavigationLink(destination: DislikeFood(), label:{
+                       Text("Allergies              ")
+                    })
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     NavigationLink(destination: UpdateWeightView(), label:{
                        Text("Update Weight    ")
                     })

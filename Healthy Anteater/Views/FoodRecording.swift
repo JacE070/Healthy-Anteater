@@ -95,16 +95,6 @@ struct FoodRecording: View {
                             })
                         }
                     }
-                    Group{
-                        Text("Type of food don’t like(sepetate by , For example: avocado, banana):")
-                        TextField("Dislike", text: $dislike)
-                        {
-                            }
-                    }
-                    Group{
-                        Text("Food allergies(sepetate by , For example: avocado, banana):")
-                        TextField("Allergies", text: $allergies)
-                    }
                     Spacer()
                     Button("Submit") {
                         self.mode.wrappedValue.dismiss()

@@ -42,8 +42,11 @@ struct RecommendationList: View {
     var body: some View {
         List(foodList) { food in
             HStack(){
-                Text(food.name)
-                
+                VStack(alignment: .leading){
+                    Text(food.name)
+                    Text("Calories: " + String(food.calories))
+                        
+                }
                 Spacer()
                 Button("Finish"){
                     // Call method in Manager to update data

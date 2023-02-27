@@ -12,6 +12,7 @@
 		2F27E2B32995FE4900A5E1EC /* AddDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B22995FE4900A5E1EC /* AddDataView.swift */; };
 		2F27E2B529A6EED700A5E1EC /* DislikeFood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B429A6EED700A5E1EC /* DislikeFood.swift */; };
 		2F27E2B729A6F87A00A5E1EC /* Allergies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B629A6F87A00A5E1EC /* Allergies.swift */; };
+		2F27E2B929AC38B100A5E1EC /* initFoodRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27E2B829AC38B100A5E1EC /* initFoodRecording.swift */; };
 		4381914B29A48FD800B78C59 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4381914A29A48FD800B78C59 /* Models.swift */; };
 		43B967B62990CA2F005B42DB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967B52990CA2F005B42DB /* ProfileView.swift */; };
 		43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B967B72990CA5D005B42DB /* RecommendationView.swift */; };
@@ -31,6 +32,7 @@
 		2F27E2B22995FE4900A5E1EC /* AddDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
 		2F27E2B429A6EED700A5E1EC /* DislikeFood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DislikeFood.swift; sourceTree = "<group>"; };
 		2F27E2B629A6F87A00A5E1EC /* Allergies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Allergies.swift; sourceTree = "<group>"; };
+		2F27E2B829AC38B100A5E1EC /* initFoodRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initFoodRecording.swift; sourceTree = "<group>"; };
 		4381914729A439E700B78C59 /* Healthy-Anteater-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Healthy-Anteater-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4381914A29A48FD800B78C59 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		43B967B52990CA2F005B42DB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				2F27E2B22995FE4900A5E1EC /* AddDataView.swift */,
 				2F27E2B429A6EED700A5E1EC /* DislikeFood.swift */,
 				2F27E2B629A6F87A00A5E1EC /* Allergies.swift */,
+				2F27E2B829AC38B100A5E1EC /* initFoodRecording.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				2F27E2AF2995D54A00A5E1EC /* Comfirmation.swift in Sources */,
 				43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */,
 				2F27E2B729A6F87A00A5E1EC /* Allergies.swift in Sources */,
+				2F27E2B929AC38B100A5E1EC /* initFoodRecording.swift in Sources */,
 				43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */,
 				2F27E2B12995E3A500A5E1EC /* FoodRecording.swift in Sources */,
 				43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */,

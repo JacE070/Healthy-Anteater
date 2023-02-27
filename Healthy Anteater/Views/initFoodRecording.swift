@@ -31,7 +31,7 @@ struct initFoodRecording: View {
                         Text("Hi Anteater, ")
                             .font(.title)
                             .fontWeight(.heavy)
-                        Text("Let’s get to know you better. ")
+                        Text("Let’s get start with your app. ")
                             .font(.subheadline)
                             .fontWeight(.heavy)
                         Group{

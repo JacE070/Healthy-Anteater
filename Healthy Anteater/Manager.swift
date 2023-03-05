@@ -23,7 +23,8 @@ func makeRequest(path: String, method: String) -> URLRequest {
 }
 
 class Manager {
-    private var started = false;
+    private var started = false
+    public var user_id: Int = -1
     
     func isStarted() -> Bool {
         return started
@@ -132,6 +133,14 @@ func updateUserWeight() {
     // target: float
     let path = "/weight"
     
+}
+
+func register(username: String, password: String) -> Bool {
+    return false
+}
+
+func login(username: String, password: String) -> Bool {
+    return false
 }
 
 func toFoodList(json: [[String: Any]]) -> [Food] {

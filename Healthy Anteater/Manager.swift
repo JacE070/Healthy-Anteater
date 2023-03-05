@@ -24,7 +24,7 @@ func makeRequest(path: String, method: String) -> URLRequest {
 
 class Manager {
     private var started = false
-    public var user_id: Int = -1
+    public var userInfo: UserInfo? = nil
     
     func isStarted() -> Bool {
         return started
@@ -60,6 +60,7 @@ func getUserInfo() async -> UserInfo? {
 //    taken_calories: int
 //    food_list: [Food, ]
     let path = "/info"
+    
     let request = makeRequest(path: path, method: "GET")
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
@@ -103,30 +104,36 @@ func finishFoodRec() {
     
 }
 
-func updatePreference() {
+func getPreference() {
+    let path = "/user/preference"
+}
+
+func updatePreference(breakfast: Bool, lunch: Bool, dinner: Bool, snack: Bool, dislike: [String], allergies: [String]) {
     // Put Request
     // user_id: int
     // breakfast: bool
     // lunch: bool
+    // dinner: bool
     // snack: bool
     // dislike: [string, ]
     // allergies: [string, ]
     let path = "/user/preference"
     
+    
 }
 
-func updateUserInfo() {
+func updateUserInfo(gender: String, age: Int, height: Int) {
     // Put Request
     // user_id: int
     // username: string
-    // geneder: string
+    // gender: string
     // age: int
     // height: int
     let path = "/user"
     
 }
 
-func updateUserWeight() {
+func updateUserWeight(current_weight: Double, target_weight: Double) {
     // Put Request
     // user_id: int
     // weight: float
@@ -136,11 +143,13 @@ func updateUserWeight() {
 }
 
 func register(username: String, password: String) -> Bool {
-    return false
+    
+    return true
 }
 
 func login(username: String, password: String) -> Bool {
-    return false
+    // If true -> getUserInfo, update userInfo to manager
+    return true
 }
 
 func toFoodList(json: [[String: Any]]) -> [Food] {

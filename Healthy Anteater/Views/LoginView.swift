@@ -11,54 +11,55 @@ struct LoginView: View {
     @State var username: String = ""
     @State var password: String = ""
     var body: some View {
-        VStack(alignment: .center, spacing: 28) {
-            InfoText().padding(.top, 44)
-            VStack(alignment: .leading, spacing: 11) {
-                Text("Login")
-                    .font(.system(size: 13, weight: .light))
-                    .foregroundColor(.secondary)
-                    .frame(height: 15, alignment: .leading)
+        NavigationView{
+            VStack(alignment: .center, spacing: 28) {
+                InfoText().padding(.top, 44)
+                VStack(alignment: .leading, spacing: 11) {
+                    Text("Login")
+                        .font(.system(size: 13, weight: .light))
+                        .foregroundColor(.secondary)
+                        .frame(height: 15, alignment: .leading)
+                    
+                    TextField("", text: $username)
+                        .font(.system(size: 17, weight: .thin))
+                        .foregroundColor(.primary)
+                        .frame(height: 44)
+                        .padding(.horizontal, 12)
+                        .background(Color.white)
+                        .cornerRadius(4.0)
+                }
                 
-                TextField("", text: $username)
-                    .font(.system(size: 17, weight: .thin))
-                    .foregroundColor(.primary)
-                    .frame(height: 44)
-                    .padding(.horizontal, 12)
-                    .background(Color.white)
-                    .cornerRadius(4.0)
-            }
-            
-            VStack(alignment: .leading, spacing: 11) {
-                Text("Password")
-                    .font(.system(size: 13, weight: .light))
-                    .foregroundColor(.secondary)
-                    .frame(height: 15, alignment: .leading)
+                VStack(alignment: .leading, spacing: 11) {
+                    Text("Password")
+                        .font(.system(size: 13, weight: .light))
+                        .foregroundColor(.secondary)
+                        .frame(height: 15, alignment: .leading)
+                    
+                    SecureField("", text: $password)
+                        .font(.system(size: 17, weight: .thin))
+                        .foregroundColor(.primary)
+                        .frame(height: 44)
+                        .padding(.horizontal, 12)
+                        .background(Color.white)
+                        .cornerRadius(4.0)
+                }
+                Text("You will automatically register if you haven't yet")
+                    .font(.system(size: 14, weight: .light))
+                Spacer()
+                NavigationLink(destination: initFoodRecording().navigationBarBackButtonHidden(true), label:{
+                    Text("Login")
+                })
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 
-                SecureField("", text: $password)
-                    .font(.system(size: 17, weight: .thin))
-                    .foregroundColor(.primary)
-                    .frame(height: 44)
-                    .padding(.horizontal, 12)
-                    .background(Color.white)
-                    .cornerRadius(4.0)
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .onSubmit {
+                    debugPrint("Login Button Tapped!")
+                }
             }
-            Text("You will automatically register if you haven't yet")
-                .font(.system(size: 14, weight: .light))
-            Spacer()
-            Button {
-                debugPrint("Login Button Tapped!")
-            } label: {
-                Text("Login")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18))
-                    .frame(width: 215, height: 44, alignment: .center)
-            }
-            .background(.blue)
-            .cornerRadius(4)
-            .padding(.top, 36)
+            .padding()
+            .background(.secondary.opacity(0.1))
         }
-        .padding()
-        .background(.secondary.opacity(0.1))
     }
 }
 

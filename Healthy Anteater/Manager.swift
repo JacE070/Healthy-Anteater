@@ -46,6 +46,14 @@ class Manager {
         }
         return true
     }
+    static func checkLogin(email: String, password: String) -> Bool{
+        if(email.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            return false
+        }
+        else{
+            return true
+        }
+    }
 }
 
 let manager = Manager()

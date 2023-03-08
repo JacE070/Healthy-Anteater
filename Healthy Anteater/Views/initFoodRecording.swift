@@ -8,6 +8,143 @@
 import Foundation
 import SwiftUI
 
+struct initWeight: View {
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @State private var gender = "Required"
+    let genders = ["Required", "Male", "Female"]
+    @State private var age: Int? = nil
+    @State private var weight: Double? = nil
+    @State private var height: Double? = nil
+    @State private var showErrorMessage = false
+    @State var islogged = false
+    var body: some View{
+        if islogged{
+            initTarget()
+        }
+        else{
+            content
+        }
+    }
+    var content: some View {
+            VStack(alignment:.center){
+                VStack(alignment: .leading){
+                    Image("image_placeholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(70.0)
+                    Text("Hi Anteater,")
+                        .fontWeight(.heavy)
+                        .font(.headline)
+                    Text("Let's get to know you better")
+                        .font(.subheadline)
+                        .fontWeight(.heavy)
+                        .padding(.bottom, 30.0)
+                    Text("Please select your gender:")
+                    Picker("Gender", selection: $gender){
+                        ForEach(genders, id: \.self){
+                            Text($0)
+                        }
+                    }.pickerStyle(.menu)
+                    Group{
+                        Text("Please enter your age:")
+                        TextField("Required", value: $age, format: .number)
+                            .padding(.bottom, 10)
+                    }
+                    Group{
+                        Text("Please enter your height in cm:")
+                        TextField("Required", value: $height, format: .number)
+                            .padding(.bottom, 10)
+                    }
+                    Group{
+                        Text("Please enter your weight in kg:")
+                        TextField("Required", value: $weight, format: .number)
+                            .padding(.bottom, 10)
+                    }
+                    
+                }.padding(.bottom, 50)
+                
+                Spacer()
+                Button("Submit") {
+                    if (Manager.checkUpdateWeight(gender: gender, age: age, weight: weight, height: height)){
+                        // Update
+                        // Go back
+                        islogged = true
+                    } else {
+                        showErrorMessage = true
+                    }
+                }
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+            }
+            .padding(.horizontal, 35.0)
+            .alert(isPresented: $showErrorMessage){
+                () -> Alert in
+                Alert(title: Text("Invalid Data. Please check!"))
+            }
+            
+        
+    }
+}
+
+
+struct initTarget: View {
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @State private var target_weight: Double? = nil
+    @State private var showErrorMessage = false
+    @State var islogged = false
+    var body: some View{
+        if islogged{
+            initFoodRecording()
+        }
+        else{
+            content
+        }
+    }
+    var content: some View {
+        VStack(alignment:.center){
+            VStack(alignment: .leading){
+                Image("image_placeholder")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .padding(70.0)
+                Text("Hi Anteater,")
+                    .fontWeight(.heavy)
+                    .font(.headline)
+                Text("Let's get to know you better")
+                    .font(.subheadline)
+                    .fontWeight(.heavy)
+                    .padding(.bottom, 30.0)
+                Group{
+                    Text("Please enter your weight in kg:")
+                    TextField("Required", value: $target_weight, format: .number)
+                        .padding(.bottom, 10)
+                }
+                
+            }.padding(.bottom, 50)
+            
+            Spacer()
+            Button("Submit") {
+                if target_weight != nil && target_weight! > 0{
+                    // Update
+                    // Go back
+                    islogged = true
+                } else {
+                    showErrorMessage = true
+                }
+            }
+            .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+        }
+        .padding(.horizontal, 35.0)
+        .alert(isPresented: $showErrorMessage){
+            () -> Alert in
+            Alert(title: Text("Invalid Data. Please check!"))
+        }
+    }
+}
+
 
 struct initFoodRecording: View {
     @State private var breakfast = false
@@ -479,7 +616,7 @@ struct InitAllergies: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: MainView().navigationBarBackButtonHidden(true), label:{
+                    NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true), label:{
                        Text("Submit")
                     })
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
@@ -499,6 +636,6 @@ struct InitAllergies: View {
 
 struct initFoodRecording_preview: PreviewProvider {
     static var previews: some View {
-        initFoodRecording()
+        initWeight()
     }
 }

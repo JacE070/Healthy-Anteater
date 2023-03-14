@@ -17,6 +17,7 @@ struct LoginView: View {
     var body: some View{
         if isLogged{
             MainView()
+                .environmentObject(HealthKitViewModel())
         }
         else if isSignUp{
             initWeight()

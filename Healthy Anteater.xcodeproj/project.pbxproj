@@ -25,6 +25,8 @@
 		43F17AE529837FC400B2989B /* Healthy_AnteaterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */; };
 		43F17AE929837FC600B2989B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F17AE829837FC600B2989B /* Assets.xcassets */; };
 		43F17AEC29837FC600B2989B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F17AEB29837FC600B2989B /* Preview Assets.xcassets */; };
+		43F37EEA29C02D3600A10969 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F37EE929C02D3600A10969 /* HealthKitManager.swift */; };
+		43F37EEC29C02D9800A10969 /* HealthKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F37EEB29C02D9800A10969 /* HealthKitViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,9 @@
 		43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Healthy_AnteaterApp.swift; sourceTree = "<group>"; };
 		43F17AE829837FC600B2989B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43F17AEB29837FC600B2989B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		43F37EE829C029FD00A10969 /* Healthy Anteater.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Healthy Anteater.entitlements"; sourceTree = "<group>"; };
+		43F37EE929C02D3600A10969 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		43F37EEB29C02D9800A10969 /* HealthKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +85,12 @@
 		43F17AE329837FC400B2989B /* Healthy Anteater */ = {
 			isa = PBXGroup;
 			children = (
+				43F37EE829C029FD00A10969 /* Healthy Anteater.entitlements */,
 				4381914729A439E700B78C59 /* Healthy-Anteater-Info.plist */,
 				43F17AE429837FC400B2989B /* Healthy_AnteaterApp.swift */,
 				43B967BF2990D743005B42DB /* Manager.swift */,
+				43F37EE929C02D3600A10969 /* HealthKitManager.swift */,
+				43F37EEB29C02D9800A10969 /* HealthKitViewModel.swift */,
 				43F17AF4298B8E9200B2989B /* Views */,
 				43F17AE829837FC600B2989B /* Assets.xcassets */,
 				43F17AEA29837FC600B2989B /* Preview Content */,
@@ -192,6 +200,7 @@
 				2F27E2B32995FE4900A5E1EC /* AddDataView.swift in Sources */,
 				43B967B62990CA2F005B42DB /* ProfileView.swift in Sources */,
 				43BF47E62994B60A005DE212 /* UpdateWeightView.swift in Sources */,
+				43F37EEC29C02D9800A10969 /* HealthKitViewModel.swift in Sources */,
 				4381914B29A48FD800B78C59 /* Models.swift in Sources */,
 				2F27E2B529A6EED700A5E1EC /* DislikeFood.swift in Sources */,
 				43B967BE2990D2E3005B42DB /* MainView.swift in Sources */,
@@ -200,6 +209,7 @@
 				2F27E2AF2995D54A00A5E1EC /* Comfirmation.swift in Sources */,
 				43B967B82990CA5D005B42DB /* RecommendationView.swift in Sources */,
 				2F27E2B729A6F87A00A5E1EC /* Allergies.swift in Sources */,
+				43F37EEA29C02D3600A10969 /* HealthKitManager.swift in Sources */,
 				2F27E2B929AC38B100A5E1EC /* initFoodRecording.swift in Sources */,
 				43BF47E82994B614005DE212 /* UpdateTargetView.swift in Sources */,
 				2F27E2B12995E3A500A5E1EC /* FoodRecording.swift in Sources */,
@@ -330,6 +340,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Healthy Anteater/Healthy Anteater.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Healthy Anteater/Preview Content\"";
@@ -341,6 +352,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -359,6 +371,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Healthy Anteater/Healthy Anteater.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Healthy Anteater/Preview Content\"";
@@ -370,6 +383,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

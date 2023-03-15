@@ -14,6 +14,7 @@ struct LoginView: View {
     @State var isLogged = false
     @State var isSignUp = false
     @State private var showErrorMessage = false
+    @State private var registerSuccess = false
     var body: some View{
         if isLogged{
             MainView()
@@ -108,17 +109,35 @@ struct LoginView: View {
                 () -> Alert in
                 Alert(title: Text("Invalid Data. Please check!"))
         }
+        .alert(isPresented: $registerSuccess){
+                () -> Alert in
+                Alert(title: Text("Successfully registered"))
+        }
         
     }
     
     func register(){
         // input the email and password combination into the databse
+        Task {
+            if await sendRegister(username: username, password: password) {
+                // true
+                registerSuccess = true
+            } else {
+                showErrorMessage = true
+            }
+        }
         isSignUp = true
     }
     
     func login(){
         // check for login and get userid from the database
-        isLogged = true
+        Task {
+            if await sendLogin(username: username, password: password) {
+                isLogged = true
+            } else {
+                showErrorMessage = true
+            }
+        }
     }
 }
 

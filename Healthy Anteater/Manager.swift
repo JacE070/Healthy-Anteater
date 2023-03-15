@@ -10,7 +10,7 @@ import SwiftUI
 import HealthKit
 
 let FAKE_URL_ENDPOINT = "https://my.api.mockaroo.com?key=3a9bab50"
-let API_ENDPOINT = "localhost:8080"
+let API_ENDPOINT = "http://127.0.0.1:8080"
 var fake_api = URLComponents(url: URL(string: FAKE_URL_ENDPOINT)!, resolvingAgainstBaseURL: true)
 var api = URLComponents(url: URL(string: API_ENDPOINT)!, resolvingAgainstBaseURL: true)
 var is_mock = true
@@ -19,10 +19,11 @@ func makeRequest(path: String, method: String, body: [String: Any]) -> URLReques
     // Example
     // path = /food
     // return: https://my.api.com/food
-    api?.path = path
-    let request = NSMutableURLRequest(url: api!.url!)
+//    api?.path = path
+    let request = NSMutableURLRequest(url: URL(string: "\(API_ENDPOINT)\(path)")!)
     request.httpMethod = method
     request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     return request as URLRequest
 }
 
@@ -226,26 +227,38 @@ func updateUserWeight(current_weight: Double, target_weight: Double) async {
     }
 }
 
-func register(username: String, password: String) async -> Bool {
-    let path = "/register"
-    let request = makeRequest(path: path, method: "POST", body: ["username": username, "password": password])
+func sendRegister(username: String, password: String) async -> Bool {
+    let path = "/user/register"
+    let request = makeRequest(path: path, method: "POST", body: ["id": 0, "username": username, "password": password])
     do {
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+//        print(request.httpMethod!)
+//        print(try JSONSerialization.jsonObject(with: request.httpBody!))
+        let (data, res) = try await URLSession.shared.data(for: request)
+//        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        print(res)
+        if let r = res as? HTTPURLResponse {
+            if (r.statusCode == 200) {
+                return true
+            }
+        }
+        return false
     }
     catch {
         return false
     }
-    return true
 }
 
-func login(username: String, password: String) async -> Bool {
+func sendLogin(username: String, password: String) async -> Bool {
     // If true -> getUserInfo, update userInfo to manager
-    let path = "/login"
+    let path = "/user/login"
+    // FIXME: Get method must not have body
     let request = makeRequest(path: path, method: "GET", body: ["username": username, "password": password])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        if json!["id"] == nil {
+            return false
+        }
         manager.userInfo = await getUserInfo(userid: json!["id"] as! Int)
         manager.userInfoMain = await getUserInfoMain(userid: json!["id"] as! Int)
     }

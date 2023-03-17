@@ -138,6 +138,7 @@ func getPreference() async {
     }
 }
 
+/*
 func updatePreference(breakfast: Bool, lunch: Bool, dinner: Bool, snack: Bool, dislike: [String], allergies: [String]) async {
     // Put Request
     // user_id: int
@@ -167,6 +168,7 @@ func updatePreference(breakfast: Bool, lunch: Bool, dinner: Bool, snack: Bool, d
     }
     
 }
+ */
 
 func getUserInfoMain(userid: Int) async -> UserInfoMain? {
 //    Get Request
@@ -331,7 +333,7 @@ func toUserInfo(json: [String: Any]) -> UserInfo {
                         user_name: json["username"] as! String,
                         gender: json["gender"] as! String,
                         age: json["age"] as! Int,
-                        height: json["height"] as! Int,
+                        height: json["height"] as! Double,
                         current_weight: json["current_weight"] as! Double,
                         target_weight: json["target_weight"] as! Double,
                         calories_recommended: json["calories"] as! Int)
@@ -352,10 +354,10 @@ func toUserInfoMain(json: [String: Any]) -> UserInfoMain {
 
 func toUserPref(json: [String: Any]) -> UserPreference {
     return UserPreference(user_id: json["userid"] as! Int,
-                          breakfast: json["breakfast"] as! Int == 1 ? true : false,
-                          lunch: json["lunch"] as! Int == 1 ? true : false,
-                          dinner: json["dinner"] as! Int  == 1 ? true : false,
-                          snack: json["snack"] as! Int  == 1 ? true : false,
+                          breakfast: json["breakfast"] as! Int,
+                          lunch: json["lunch"] as! Int ,
+                          dinner: json["dinner"] as! Int ,
+                          snack: json["snack"] as! Int ,
                           dislike: json["dislike"] as! [String],
                           allergies: json["allergies"] as! [String])
 }

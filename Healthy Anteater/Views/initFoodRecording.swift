@@ -12,9 +12,9 @@ struct initWeight: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @State private var gender = "Required"
     let genders = ["Required", "Male", "Female"]
-    @State private var age: Int = 0
-    @State private var weight: Double = 0
-    @State private var height: Double = 0
+    @State private var age: Int! = nil
+    @State private var weight: Double! = nil
+    @State private var height: Double! = nil
     @State private var showErrorMessage = false
     @State var islogged = false
     var body: some View{
@@ -291,10 +291,7 @@ struct initFoodRecording: View {
 
 
 struct InitDislikeFood: View {
-    @State private var breakfast = 0
-    @State private var lunch = 0
-    @State private var dinner = 0
-    @State private var snack = 0
+
     @State private var Marzipan = false
     @State private var Olives = false
     @State private var Onions = false
@@ -521,7 +518,9 @@ struct InitDislikeFood: View {
     }
     func updateDislike(){
         Task{
-            await sendPref(id:manager.userid, breakfast: breakfast, lunch: lunch, dinner: dinner, snack: snack, dislike: DislikeList as! [String], allergies: allergies as! [String])
+            await sendPref(id:manager.userid, breakfast: manager.userPref?.breakfast as! Int, lunch: manager.userPref?.lunch as! Int, dinner: manager.userPref?.dinner as! Int, snack: manager.userPref?.snack as! Int,
+                dislike: DislikeList as! [String],
+                allergies: allergies as! [String])
         }
     }
     
@@ -536,7 +535,7 @@ struct InitAllergies: View {
     @State private var Fish  = false
     @State private var Soy  = false
     @State private var Wheat  = false
-    
+    @State private var allergies = []
     var body: some View {
         
             ZStack{
@@ -565,9 +564,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Eggs == false){
                                     self.Eggs = true
+                                    self.allergies.append("egg")
                                 }
                                 else{
                                     self.Eggs = false
+                                    allergies = allergies.filter(){$0 as! String != "egg"}
                                 }
                             }, label:{
                                 Image(self.Eggs == true ? "check" : "uncheck")
@@ -583,9 +584,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Milk == false){
                                     self.Milk = true
+                                    self.allergies.append("milk")
                                 }
                                 else{
                                     self.Milk = false
+                                    allergies = allergies.filter(){$0 as! String != "milk"}
                                 }
                             }, label:{
                                 Image(self.Milk == true ? "check" : "uncheck")
@@ -601,9 +604,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Mustard == false){
                                     self.Mustard = true
+                                    self.allergies.append("mustard")
                                 }
                                 else{
                                     self.Mustard = false
+                                    allergies = allergies.filter(){$0 as! String != "mustard"}
                                 }
                             }, label:{
                                 Image(self.Mustard == true ? "check" : "uncheck")
@@ -618,9 +623,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Peanuts == false){
                                     self.Peanuts = true
+                                    self.allergies.append("peanuts")
                                 }
                                 else{
                                     self.Peanuts = false
+                                    allergies = allergies.filter(){$0 as! String != "peanuts"}
                                 }
                             }, label:{
                                 Image(self.Peanuts == true ? "check" : "uncheck")
@@ -635,9 +642,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Fish == false){
                                     self.Fish = true
+                                    self.allergies.append("fish")
                                 }
                                 else{
                                     self.Fish = false
+                                    allergies = allergies.filter(){$0 as! String != "fish"}
                                 }
                             }, label:{
                                 Image(self.Fish == true ? "check" : "uncheck")
@@ -652,9 +661,11 @@ struct InitAllergies: View {
                             Button(action:{
                                 if(self.Soy == false){
                                     self.Soy = true
+                                    self.allergies.append("soy")
                                 }
                                 else{
                                     self.Soy = false
+                                    allergies = allergies.filter(){$0 as! String != "soy"}
                                 }
                             }, label:{
                                 Image(self.Soy == true ? "check" : "uncheck")
@@ -670,9 +681,11 @@ struct InitAllergies: View {
                         Button(action:{
                             if(self.Wheat == false){
                                 self.Wheat = true
+                                self.allergies.append("wheat")
                             }
                             else{
                                 self.Wheat = false
+                                allergies = allergies.filter(){$0 as! String != "wheat"}
                             }
                         }, label:{
                             Image(self.Wheat == true ? "check" : "uncheck")
@@ -689,12 +702,20 @@ struct InitAllergies: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .onSubmit {
-                            print(Eggs)
+                            print(allergies)
+                        updateAl()
                     }
                 }
                 .padding(.horizontal, 35.0)
             }
         
+    }
+    func updateAl(){
+        Task{
+            await sendPref(id:manager.userid, breakfast: manager.userPref?.breakfast as! Int, lunch: manager.userPref?.lunch as! Int, dinner: manager.userPref?.dinner as! Int, snack: manager.userPref?.snack as! Int,
+                           dislike: manager.userPref?.dislike as! [String],
+                allergies: allergies as! [String])
+        }
     }
 }
 
@@ -702,6 +723,6 @@ struct InitAllergies: View {
 
 struct initFoodRecording_preview: PreviewProvider {
     static var previews: some View {
-        DislikeFood()
+        initWeight()
     }
 }

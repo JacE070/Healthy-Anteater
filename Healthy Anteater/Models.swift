@@ -32,7 +32,7 @@ public struct UserInfo {
     let user_name: String
     let gender: String
     let age: Int
-    let height: Int
+    let height: Double
     let current_weight: Double
     let target_weight: Double
     let calories_recommended: Int
@@ -40,10 +40,10 @@ public struct UserInfo {
 
 public struct UserPreference {
     let user_id: Int
-    var breakfast: Bool
-    var lunch: Bool
-    var dinner: Bool
-    var snack: Bool
+    var breakfast: Int
+    var lunch: Int
+    var dinner: Int
+    var snack: Int
     var dislike: [String]
     var allergies: [String]
 }

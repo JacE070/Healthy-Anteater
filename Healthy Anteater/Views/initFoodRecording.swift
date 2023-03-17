@@ -97,7 +97,7 @@ struct initWeight: View {
 
 struct initTarget: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var target_weight: Double = 0
+    @State private var target_weight: Double! = nil
     @State private var showErrorMessage = false
     @State var islogged = false
     var body: some View{
@@ -166,7 +166,18 @@ struct initFoodRecording: View {
     @State private var snack = 0
     @State private var dislike = []
     @State private var allergies = []
-    var body: some View {
+    @State var islogged = false
+    
+    var body: some View{
+        if islogged{
+            InitDislikeFood()
+        }
+        else{
+            content
+        }
+    }
+    
+    var content: some View {
         NavigationView{
         
             ZStack{
@@ -251,6 +262,7 @@ struct initFoodRecording: View {
                             Button(action:{
                                 if(self.snack == 0){
                                     self.snack = 1
+                                    print("snack")
                                 }
                                 else{
                                     self.snack = 0
@@ -263,20 +275,13 @@ struct initFoodRecording: View {
                         }
                     }
                     Spacer()
-                    NavigationLink(destination: InitDislikeFood(), label:{
-                       Text("Next")
-                    })
+                    Button("Submit") {
+                        updatePref()
+                        islogged = true
+                    }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .onSubmit {
-                        print(breakfast)
-                        print(lunch)
-                        print(dinner)
-                        print(snack)
-                        print(dislike)
-                        print(allergies)
-                    }
+                        .controlSize(.large)
                 }
                 .padding(.horizontal, 35.0)
             }
@@ -303,7 +308,20 @@ struct InitDislikeFood: View {
     @State private var Oysters  = false
     @State private var DislikeList  = []
     @State private var allergies = []
-    var body: some View {
+    
+    @State var islogged = false
+    
+    var body: some View{
+        if islogged{
+            InitAllergies()
+        }
+        else{
+            content
+        }
+    }
+    
+    
+    var content: some View {
         
             ZStack{
                 Color(UIColor(red: 0.783, green: 0.906, blue: 0.958, alpha: 1))
@@ -447,7 +465,7 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Fish == false){
                                     self.Fish = true
-                                    self.DislikeList.append("")
+                                    self.DislikeList.append("fish")
                                 }
                                 else{
                                     self.Fish = false
@@ -501,16 +519,13 @@ struct InitDislikeFood: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: InitAllergies(), label:{
-                       Text("Next")
-                    })
+                    Button("Submit") {
+                        updateDislike()
+                        islogged = true
+                    }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .onSubmit {
-                        print(self.DislikeList)
-                        updateDislike()
-                    }
+                        .controlSize(.large)
                 }
                 .padding(.horizontal, 35.0)
             }
@@ -536,7 +551,19 @@ struct InitAllergies: View {
     @State private var Soy  = false
     @State private var Wheat  = false
     @State private var allergies = []
-    var body: some View {
+    @State var islogged = false
+    
+    var body: some View{
+        if islogged{
+            LoginView()
+        }
+        else{
+            content
+        }
+    }
+    
+    
+    var content: some View {
         
             ZStack{
                 Color(UIColor(red: 0.783, green: 0.906, blue: 0.958, alpha: 1))
@@ -695,16 +722,13 @@ struct InitAllergies: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true), label:{
-                       Text("Submit")
-                    })
+                    Button("Submit") {
+                        updateAl()
+                        islogged = true
+                    }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .onSubmit {
-                            print(allergies)
-                        updateAl()
-                    }
+                        .controlSize(.large)
                 }
                 .padding(.horizontal, 35.0)
             }
@@ -723,6 +747,6 @@ struct InitAllergies: View {
 
 struct initFoodRecording_preview: PreviewProvider {
     static var previews: some View {
-        initWeight()
+        FoodRecording()
     }
 }

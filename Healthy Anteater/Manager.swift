@@ -73,10 +73,11 @@ func getUserInfo(userid: Int) async -> UserInfo? {
 //    food_list: [Food, ]
     let path = "/user"
     
-    let request = makeRequest(path: path, method: "GET", body: ["userid": userid])
+    let request = makeRequest(path: path, method: "POST", body: ["userid": userid])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        
         let userInfo = toUserInfo(json: json!)
         return userInfo
     }
@@ -96,7 +97,7 @@ func getFoodList() async -> [Food] {
 //    contains: [string, ]
 //    checked: false
     let path = "/food"
-    let request = makeRequest(path: path, method: "GET", body: ["userid": manager.getUserId()])
+    let request = makeRequest(path: path, method: "POST", body: ["userid": manager.getUserId()])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
@@ -125,8 +126,8 @@ func finishFoodRec(user_id: Int, food_id: Int) async {
 }
 
 func getPreference() async {
-    let path = "/user/preference"
-    let request = makeRequest(path: path, method: "GET", body: ["userid": manager.getUserId()])
+    let path = "/preference"
+    let request = makeRequest(path: path, method: "POST", body: ["userid": manager.getUserId()])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
@@ -174,7 +175,7 @@ func getUserInfoMain(userid: Int) async -> UserInfoMain? {
 //    Get Request
     let path = "/user/main"
     
-    let request = makeRequest(path: path, method: "GET", body: ["userid": userid])
+    let request = makeRequest(path: path, method: "POST", body: ["userid": userid])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
@@ -205,10 +206,12 @@ func updateUserInfo(id: Int, gender: String, age: Int, height: Double ,current_w
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
         print(res)
+        
         manager.userInfo = await getUserInfo(userid: id)
         manager.userInfoMain = await getUserInfoMain(userid: id)
+        print(manager.userInfo?.current_weight)
         
     }
     catch {
@@ -222,17 +225,20 @@ func updateUserWeight(id: Int, current_weight: Double, target_weight: Double) as
     // weight: float
     // target: float
     let path = "/user/weight"
+    print(target_weight)
     let body: [String: Any] = [
         "id": id,
-        "current_weight": current_weight,
-        "target_weight": target_weight,
+        "weight": current_weight,
+        "target": target_weight,
     ]
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
         print(res)
         manager.userInfo = await getUserInfo(userid: id)
+    
+        print(manager.userInfo)
         manager.userInfoMain = await getUserInfoMain(userid: id)
     }
     catch {
@@ -247,16 +253,16 @@ func sendRegister(username: String, password: String) async -> Bool {
 //        print(request.httpMethod!)
 //        print(try JSONSerialization.jsonObject(with: request.httpBody!))
         let (data, res) = try await URLSession.shared.data(for: request)
-        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-        print(res)
         if let r = res as? HTTPURLResponse {
+            print(r.statusCode)
             if (r.statusCode == 200) {
                 let path = "/user/login"
                 let request = makeRequest(path: path, method: "POST", body: ["username": username, "password": password])
                 do {
-                    let (data, _) = try await URLSession.shared.data(for: request)
+                    let (data, res) = try await URLSession.shared.data(for: request)
                     let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-                    manager.userid = json!["userid"] as! Int
+                    print(res)
+                    manager.userid = json!["id"] as! Int
                     
                 }
                 return true
@@ -280,9 +286,9 @@ func sendLogin(username: String, password: String) async -> Bool {
         if json!["id"] == nil {
             return false
         }
-        manager.userInfo = await getUserInfo(userid: json!["userid"] as! Int)
-        manager.userInfoMain = await getUserInfoMain(userid: json!["userid"] as! Int)
-        manager.userid = json!["userid"] as! Int
+        manager.userInfo = await getUserInfo(userid: json!["id"] as! Int)
+        manager.userInfoMain = await getUserInfoMain(userid: json!["id"] as! Int)
+        manager.userid = json!["id"] as! Int
     }
     catch {
         return false
@@ -291,7 +297,7 @@ func sendLogin(username: String, password: String) async -> Bool {
 }
 
 func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislike:[String], allergies:[String]) async {
-    let path = "/user/preference"
+    let path = "/preference"
     let body: [String: Any] = [
         "id": id,
         "breakfast": breakfast,
@@ -301,13 +307,15 @@ func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislik
         "dislike":dislike,
         "allergies":allergies,
     ]
+    print(body)
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
         print(res)
         manager.userInfo = await getUserInfo(userid: id)
         manager.userInfoMain = await getUserInfoMain(userid: id)
+        await getPreference()
     }
     catch {
         
@@ -329,31 +337,31 @@ func toFoodList(json: [[String: Any]]) -> [Food] {
 }
 
 func toUserInfo(json: [String: Any]) -> UserInfo {
-    return UserInfo(id: json["user_id"] as! Int,
+    return UserInfo(id: json["id"] as! Int,
                         user_name: json["username"] as! String,
                         gender: json["gender"] as! String,
                         age: json["age"] as! Int,
                         height: json["height"] as! Double,
-                        current_weight: json["current_weight"] as! Double,
-                        target_weight: json["target_weight"] as! Double,
+                        current_weight: json["weight"] as! Double,
+                        target_weight: json["target"] as! Double,
                         calories_recommended: json["calories"] as! Int)
 }
 
 func toUserInfoMain(json: [String: Any]) -> UserInfoMain {
     let fake_food_list = [Food(id: 0, name: "Food 1", description: "Food1 Description", calories: 500, contains: ["Peanuts"], checked: false),
                           Food(id: 1, name: "Food 2", description: "Food2 Description", calories: 500, contains: ["Seafood"], checked: true)]
-    return UserInfoMain(id: json["user_id"] as! Int,
+    return UserInfoMain(id: json["userid"] as! Int,
                     user_name: json["username"] as! String,
-                    current_weight: json["current_weight"] as! Double,
-                    target_weight: json["target_weight"] as! Double,
-                    rec_calories: json["calories_recommended"] as! Int,
-                    taken_calories: json["calories_intake"] as! Int,
+                    current_weight: json["weight"] as! Double,
+                    target_weight: json["target"] as! Double,
+                    rec_calories: json["calories"] as! Int,
+                    taken_calories: json["taken"] as! Int,
                     food_list: is_mock ? fake_food_list :
-                        toFoodList(json: json["food_list"] as! [[String : Any]]))
+                        toFoodList(json: json["foodlist"] as! [[String : Any]]))
     }
 
 func toUserPref(json: [String: Any]) -> UserPreference {
-    return UserPreference(user_id: json["userid"] as! Int,
+    return UserPreference(user_id: json["id"] as! Int,
                           breakfast: json["breakfast"] as! Int,
                           lunch: json["lunch"] as! Int ,
                           dinner: json["dinner"] as! Int ,

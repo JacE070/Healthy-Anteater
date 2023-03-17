@@ -123,6 +123,7 @@ struct LoginView: View {
                 // true
                 registerSuccess = true
                 isSignUp = true
+                
             } else {
                 showErrorMessage = true
             }

@@ -11,11 +11,10 @@ import SwiftUI
 
 struct FoodRecording: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var breakfast = false
-    @State private var lunch = false
-    @State private var dinner = false
-    @State private var dislike = ""
-    @State private var allergies = ""
+    @State private var breakfast = manager.userPref!.breakfast == 1
+    @State private var lunch = manager.userPref!.lunch == 1
+    @State private var dinner = manager.userPref!.dinner == 1
+    @State private var snack = manager.userPref!.snack == 1
     var body: some View {
         NavigationView{
         
@@ -94,10 +93,36 @@ struct FoodRecording: View {
                                     .frame(width: 40, height: 40)
                             })
                         }
+                        HStack(){
+                            Text("snack")
+                            
+                            Spacer()
+                            Button(action:{
+                                if(self.snack == false){
+                                    self.snack = true
+                                }
+                                else{
+                                    self.snack = false
+                                }
+                            }, label:{
+                                Image(self.snack == true ? "check" : "uncheck")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            })
+                        }
                     }
                     Spacer()
                     Button("Submit") {
-                        self.mode.wrappedValue.dismiss()
+                        Task {
+                            await sendPref(id: manager.getUserId(),
+                                           breakfast: breakfast ? 1 : 0,
+                                           lunch: lunch ? 1 : 0,
+                                           dinner: dinner ? 1 : 0,
+                                           snack: snack ? 1 : 0,
+                                           dislike: manager.userPref!.dislike,
+                                           allergies: manager.userPref!.allergies)
+                            self.mode.wrappedValue.dismiss()
+                        }
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
@@ -109,11 +134,14 @@ struct FoodRecording: View {
                         print(breakfast)
                         print(lunch)
                         print(dinner)
-                        print(dislike)
-                        print(allergies)
                     }
                 }
                 .padding(.horizontal, 35.0)
+            }.onAppear {
+                breakfast = manager.userPref!.breakfast == 1
+                lunch = manager.userPref!.lunch == 1
+                dinner = manager.userPref!.dinner == 1
+                snack = manager.userPref!.snack == 1
             }
         }
     }

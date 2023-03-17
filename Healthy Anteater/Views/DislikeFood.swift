@@ -11,15 +11,16 @@ import SwiftUI
 
 struct DislikeFood: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var Marzipan = false
-    @State private var Olives = false
-    @State private var Onions = false
-    @State private var Sushi = false
-    @State private var Broccoli  = false
-    @State private var Tofu  = false
-    @State private var Fish  = false
-    @State private var Liver  = false
-    @State private var Oysters  = false
+    @State private var Marzipan = manager.userPref!.dislike.contains("cheese")
+    @State private var Olives = manager.userPref!.dislike.contains("olives")
+    @State private var Onions = manager.userPref!.dislike.contains("onions")
+    @State private var Sushi = manager.userPref!.dislike.contains("sushi")
+    @State private var Broccoli  = manager.userPref!.dislike.contains("broccoli")
+    @State private var Tofu  = manager.userPref!.dislike.contains("tofu")
+    @State private var Fish  = manager.userPref!.dislike.contains("fish")
+    @State private var Liver  = manager.userPref!.dislike.contains("liver")
+    @State private var Oysters  = manager.userPref!.dislike.contains("oysters")
+    @State private var DislikeList:[String]  = manager.userPref!.dislike
     
     var body: some View {
         NavigationView{
@@ -50,9 +51,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Marzipan == false){
                                     self.Marzipan = true
+                                    self.DislikeList.append("cheese")
                                 }
                                 else{
                                     self.Marzipan = false
+                                    DislikeList = DislikeList.filter(){$0 != "cheese"}
                                 }
                             }, label:{
                                 Image(self.Marzipan == true ? "check" : "uncheck")
@@ -68,9 +71,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Olives == false){
                                     self.Olives = true
+                                    self.DislikeList.append("olives")
                                 }
                                 else{
                                     self.Olives = false
+                                    DislikeList = DislikeList.filter(){$0 != "olives"}
                                 }
                             }, label:{
                                 Image(self.Olives == true ? "check" : "uncheck")
@@ -86,9 +91,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Onions == false){
                                     self.Onions = true
+                                    self.DislikeList.append("onions")
                                 }
                                 else{
                                     self.Onions = false
+                                    DislikeList = DislikeList.filter(){$0 != "onions"}
                                 }
                             }, label:{
                                 Image(self.Onions == true ? "check" : "uncheck")
@@ -103,9 +110,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Sushi == false){
                                     self.Sushi = true
+                                    self.DislikeList.append("sushi")
                                 }
                                 else{
                                     self.Sushi = false
+                                    DislikeList = DislikeList.filter(){$0 != "sushi"}
                                 }
                             }, label:{
                                 Image(self.Sushi == true ? "check" : "uncheck")
@@ -120,9 +129,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Broccoli == false){
                                     self.Broccoli = true
+                                    self.DislikeList.append("broccoli")
                                 }
                                 else{
                                     self.Broccoli = false
+                                    DislikeList = DislikeList.filter(){$0 != "broccoli"}
                                 }
                             }, label:{
                                 Image(self.Broccoli == true ? "check" : "uncheck")
@@ -137,9 +148,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Tofu == false){
                                     self.Tofu = true
+                                    self.DislikeList.append("tofu")
                                 }
                                 else{
                                     self.Tofu = false
+                                    DislikeList = DislikeList.filter(){$0 != "tofu"}
                                 }
                             }, label:{
                                 Image(self.Tofu == true ? "check" : "uncheck")
@@ -154,9 +167,11 @@ struct DislikeFood: View {
                             Button(action:{
                                 if(self.Fish == false){
                                     self.Fish = true
+                                    self.DislikeList.append("fish")
                                 }
                                 else{
                                     self.Fish = false
+                                    DislikeList = DislikeList.filter(){$0 != "fish"}
                                 }
                             }, label:{
                                 Image(self.Fish == true ? "check" : "uncheck")
@@ -173,9 +188,11 @@ struct DislikeFood: View {
                         Button(action:{
                             if(self.Liver == false){
                                 self.Liver = true
+                                self.DislikeList.append("liver")
                             }
                             else{
                                 self.Liver = false
+                                DislikeList = DislikeList.filter(){$0 != "liver"}
                             }
                         }, label:{
                             Image(self.Liver == true ? "check" : "uncheck")
@@ -190,9 +207,11 @@ struct DislikeFood: View {
                         Button(action:{
                             if(self.Oysters == false){
                                 self.Oysters = true
+                                self.DislikeList.append("oysters")
                             }
                             else{
                                 self.Oysters = false
+                                DislikeList = DislikeList.filter(){$0 != "oysters"}
                             }
                         }, label:{
                             Image(self.Oysters == true ? "check" : "uncheck")
@@ -203,7 +222,16 @@ struct DislikeFood: View {
                     
                     Spacer()
                     Button("Submit") {
-                        self.mode.wrappedValue.dismiss()
+                        Task {
+                            await sendPref(id: manager.getUserId(),
+                                           breakfast: manager.userPref!.breakfast,
+                                           lunch: manager.userPref!.lunch,
+                                           dinner: manager.userPref!.dinner,
+                                           snack: manager.userPref!.snack,
+                                           dislike: DislikeList,
+                                           allergies: manager.userPref!.allergies)
+                            self.mode.wrappedValue.dismiss()
+                        }
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
@@ -217,6 +245,17 @@ struct DislikeFood: View {
                 }
                 .padding(.horizontal, 35.0)
             }
+        }.onAppear {
+            Marzipan = manager.userPref!.dislike.contains("cheese")
+            Olives = manager.userPref!.dislike.contains("olives")
+            Onions = manager.userPref!.dislike.contains("onions")
+            Sushi = manager.userPref!.dislike.contains("sushi")
+            Broccoli  = manager.userPref!.dislike.contains("broccoli")
+            Tofu  = manager.userPref!.dislike.contains("tofu")
+            Fish  = manager.userPref!.dislike.contains("fish")
+            Liver  = manager.userPref!.dislike.contains("liver")
+            Oysters  = manager.userPref!.dislike.contains("oysters")
+            DislikeList = manager.userPref!.dislike
         }
     }
 }

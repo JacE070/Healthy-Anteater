@@ -11,13 +11,14 @@ import SwiftUI
 
 struct Allergies: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var Eggs = false
-    @State private var Milk = false
-    @State private var Mustard = false
-    @State private var Peanuts = false
-    @State private var Fish  = false
-    @State private var Soy  = false
-    @State private var Wheat  = false
+    @State private var Eggs = manager.userPref!.allergies.contains("eggs")
+    @State private var Milk = manager.userPref!.allergies.contains("milk")
+    @State private var Mustard = manager.userPref!.allergies.contains("mustard")
+    @State private var Peanuts = manager.userPref!.allergies.contains("peanuts")
+    @State private var Fish  = manager.userPref!.allergies.contains("fish")
+    @State private var Soy  = manager.userPref!.allergies.contains("soy")
+    @State private var Wheat  = manager.userPref!.allergies.contains("wheat")
+    @State private var allergies: [String] = manager.userPref!.allergies
     
     var body: some View {
         NavigationView{
@@ -48,9 +49,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Eggs == false){
                                     self.Eggs = true
+                                    self.allergies.append("egg")
                                 }
                                 else{
                                     self.Eggs = false
+                                    allergies = allergies.filter(){$0 != "egg"}
                                 }
                             }, label:{
                                 Image(self.Eggs == true ? "check" : "uncheck")
@@ -66,9 +69,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Milk == false){
                                     self.Milk = true
+                                    self.allergies.append("milk")
                                 }
                                 else{
                                     self.Milk = false
+                                    allergies = allergies.filter(){$0 != "milk"}
                                 }
                             }, label:{
                                 Image(self.Milk == true ? "check" : "uncheck")
@@ -84,9 +89,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Mustard == false){
                                     self.Mustard = true
+                                    self.allergies.append("mustard")
                                 }
                                 else{
                                     self.Mustard = false
+                                    allergies = allergies.filter(){$0 != "mustard"}
                                 }
                             }, label:{
                                 Image(self.Mustard == true ? "check" : "uncheck")
@@ -101,9 +108,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Peanuts == false){
                                     self.Peanuts = true
+                                    self.allergies.append("peanuts")
                                 }
                                 else{
                                     self.Peanuts = false
+                                    allergies = allergies.filter(){$0 != "peanuts"}
                                 }
                             }, label:{
                                 Image(self.Peanuts == true ? "check" : "uncheck")
@@ -118,9 +127,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Fish == false){
                                     self.Fish = true
+                                    self.allergies.append("fish")
                                 }
                                 else{
                                     self.Fish = false
+                                    allergies = allergies.filter(){$0 != "fish"}
                                 }
                             }, label:{
                                 Image(self.Fish == true ? "check" : "uncheck")
@@ -135,9 +146,11 @@ struct Allergies: View {
                             Button(action:{
                                 if(self.Soy == false){
                                     self.Soy = true
+                                    self.allergies.append("soy")
                                 }
                                 else{
                                     self.Soy = false
+                                    allergies = allergies.filter(){$0 != "soy"}
                                 }
                             }, label:{
                                 Image(self.Soy == true ? "check" : "uncheck")
@@ -153,9 +166,11 @@ struct Allergies: View {
                         Button(action:{
                             if(self.Wheat == false){
                                 self.Wheat = true
+                                self.allergies.append("wheat")
                             }
                             else{
                                 self.Wheat = false
+                                allergies = allergies.filter(){$0 != "wheat"}
                             }
                         }, label:{
                             Image(self.Wheat == true ? "check" : "uncheck")
@@ -166,7 +181,16 @@ struct Allergies: View {
                     
                     Spacer()
                     Button("Submit") {
-                        self.mode.wrappedValue.dismiss()
+                        Task {
+                            await sendPref(id: manager.getUserId(),
+                                           breakfast: manager.userPref!.breakfast,
+                                           lunch: manager.userPref!.lunch,
+                                           dinner: manager.userPref!.dinner,
+                                           snack: manager.userPref!.snack,
+                                           dislike: manager.userPref!.dislike,
+                                           allergies: allergies)
+                            self.mode.wrappedValue.dismiss()
+                        }
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     .buttonStyle(.borderedProminent)
@@ -180,6 +204,15 @@ struct Allergies: View {
                 }
                 .padding(.horizontal, 35.0)
             }
+        }.onAppear {
+            Eggs = manager.userPref!.allergies.contains("eggs")
+            Milk = manager.userPref!.allergies.contains("milk")
+            Mustard = manager.userPref!.allergies.contains("mustard")
+            Peanuts = manager.userPref!.allergies.contains("peanuts")
+            Fish  = manager.userPref!.allergies.contains("fish")
+            Soy  = manager.userPref!.allergies.contains("soy")
+            Wheat  = manager.userPref!.allergies.contains("wheat")
+            allergies = manager.userPref!.allergies
         }
     }
 }

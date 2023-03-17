@@ -63,6 +63,8 @@ struct AddDataView: View {
                         .controlSize(.large)
                 }
                 .padding(.horizontal, 35.0)
+            }.task {
+                await getPreference()
             }
         }
     }

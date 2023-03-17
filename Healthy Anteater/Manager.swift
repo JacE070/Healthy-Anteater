@@ -261,7 +261,6 @@ func sendRegister(username: String, password: String) async -> Bool {
                 do {
                     let (data, res) = try await URLSession.shared.data(for: request)
                     let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-                    print(res)
                     manager.userid = json!["id"] as! Int
                     
                 }

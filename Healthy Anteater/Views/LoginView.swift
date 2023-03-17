@@ -134,6 +134,7 @@ struct LoginView: View {
         // check for login and get userid from the database
         Task {
             if await sendLogin(username: username, password: password) {
+                await getPreference()
                 isLogged = true
             } else {
                 showErrorMessage = true

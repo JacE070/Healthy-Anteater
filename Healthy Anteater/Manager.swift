@@ -30,7 +30,7 @@ func makeRequest(path: String, method: String, body: [String: Any]) -> URLReques
 class Manager {
     private var started = false
     public var userInfo: UserInfo? = nil
-    public var userid: Int? = nil
+    public var userid: Int = 0
     public var userPref: UserPreference? = nil
     public var userInfoMain: UserInfoMain? = nil
     
@@ -184,7 +184,7 @@ func getUserInfoMain(userid: Int) async -> UserInfoMain? {
     }
 }
 
-func updateUserInfo(gender: String, age: Int, height: Int) async {
+func updateUserInfo(id: Int, gender: String, age: Int, height: Double ,current_weight: Double, target_weight: Double) async {
     // Put Request
     // user_id: int
     // username: string
@@ -193,34 +193,45 @@ func updateUserInfo(gender: String, age: Int, height: Int) async {
     // height: int
     let path = "/user"
     let body: [String: Any] = [
+        "id": id,
         "gender": gender,
         "age": age,
-        "height": height
+        "height": height,
+        "weight": current_weight,
+        "target": target_weight,
     ]
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
-        let (data, _) = try await URLSession.shared.data(for: request)
+        let (data, res) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        print(res)
+        manager.userInfo = await getUserInfo(userid: id)
+        manager.userInfoMain = await getUserInfoMain(userid: id)
+        
     }
     catch {
         
     }
 }
 
-func updateUserWeight(current_weight: Double, target_weight: Double) async {
+func updateUserWeight(id: Int, current_weight: Double, target_weight: Double) async {
     // Put Request
     // user_id: int
     // weight: float
     // target: float
     let path = "/user/weight"
     let body: [String: Any] = [
+        "id": id,
         "current_weight": current_weight,
         "target_weight": target_weight,
     ]
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
-        let (data, _) = try await URLSession.shared.data(for: request)
+        let (data, res) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        print(res)
+        manager.userInfo = await getUserInfo(userid: id)
+        manager.userInfoMain = await getUserInfoMain(userid: id)
     }
     catch {
         
@@ -234,10 +245,18 @@ func sendRegister(username: String, password: String) async -> Bool {
 //        print(request.httpMethod!)
 //        print(try JSONSerialization.jsonObject(with: request.httpBody!))
         let (data, res) = try await URLSession.shared.data(for: request)
-//        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
         print(res)
         if let r = res as? HTTPURLResponse {
             if (r.statusCode == 200) {
+                let path = "/user/login"
+                let request = makeRequest(path: path, method: "POST", body: ["username": username, "password": password])
+                do {
+                    let (data, _) = try await URLSession.shared.data(for: request)
+                    let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+                    manager.userid = json!["userid"] as! Int
+                    
+                }
                 return true
             }
         }
@@ -252,20 +271,45 @@ func sendLogin(username: String, password: String) async -> Bool {
     // If true -> getUserInfo, update userInfo to manager
     let path = "/user/login"
     // FIXME: Get method must not have body
-    let request = makeRequest(path: path, method: "GET", body: ["username": username, "password": password])
+    let request = makeRequest(path: path, method: "POST", body: ["username": username, "password": password])
     do {
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
         if json!["id"] == nil {
             return false
         }
-        manager.userInfo = await getUserInfo(userid: json!["id"] as! Int)
-        manager.userInfoMain = await getUserInfoMain(userid: json!["id"] as! Int)
+        manager.userInfo = await getUserInfo(userid: json!["userid"] as! Int)
+        manager.userInfoMain = await getUserInfoMain(userid: json!["userid"] as! Int)
+        manager.userid = json!["userid"] as! Int
     }
     catch {
         return false
     }
     return true
+}
+
+func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislike:[String], allergies:[String]) async {
+    let path = "/user/preference"
+    let body: [String: Any] = [
+        "id": id,
+        "breakfast": breakfast,
+        "lunch": lunch,
+        "dinner":dinner,
+        "snack":snack,
+        "dislike":dislike,
+        "allergies":allergies,
+    ]
+    let request = makeRequest(path: path, method: "PUT", body: body)
+    do {
+        let (data, res) = try await URLSession.shared.data(for: request)
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+        print(res)
+        manager.userInfo = await getUserInfo(userid: id)
+        manager.userInfoMain = await getUserInfoMain(userid: id)
+    }
+    catch {
+        
+    }
 }
 
 func toFoodList(json: [[String: Any]]) -> [Food] {

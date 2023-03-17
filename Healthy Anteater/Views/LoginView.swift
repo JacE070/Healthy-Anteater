@@ -122,11 +122,11 @@ struct LoginView: View {
             if await sendRegister(username: username, password: password) {
                 // true
                 registerSuccess = true
+                isSignUp = true
             } else {
                 showErrorMessage = true
             }
         }
-        isSignUp = true
     }
     
     func login(){

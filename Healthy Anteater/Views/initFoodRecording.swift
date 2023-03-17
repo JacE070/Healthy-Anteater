@@ -12,9 +12,9 @@ struct initWeight: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @State private var gender = "Required"
     let genders = ["Required", "Male", "Female"]
-    @State private var age: Int? = nil
-    @State private var weight: Double? = nil
-    @State private var height: Double? = nil
+    @State private var age: Int = 0
+    @State private var weight: Double = 0
+    @State private var height: Double = 0
     @State private var showErrorMessage = false
     @State var islogged = false
     var body: some View{
@@ -68,7 +68,9 @@ struct initWeight: View {
                     if (Manager.checkUpdateWeight(gender: gender, age: age, weight: weight, height: height)){
                         // Update
                         // Go back
+                        updateUser()
                         islogged = true
+                        
                     } else {
                         showErrorMessage = true
                     }
@@ -85,12 +87,17 @@ struct initWeight: View {
             
         
     }
+    func updateUser(){
+        Task{
+            await updateUserInfo(id: manager.userid, gender: gender, age: age, height: height, current_weight: weight, target_weight: 0)
+        }
+    }
 }
 
 
 struct initTarget: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var target_weight: Double? = nil
+    @State private var target_weight: Double = 0
     @State private var showErrorMessage = false
     @State var islogged = false
     var body: some View{
@@ -116,7 +123,7 @@ struct initTarget: View {
                     .fontWeight(.heavy)
                     .padding(.bottom, 30.0)
                 Group{
-                    Text("Please enter your weight in kg:")
+                    Text("Please enter your target weight in kg:")
                     TextField("Required", value: $target_weight, format: .number)
                         .padding(.bottom, 10)
                 }
@@ -125,9 +132,10 @@ struct initTarget: View {
             
             Spacer()
             Button("Submit") {
-                if target_weight != nil && target_weight! > 0{
+                if target_weight != nil && target_weight > 0{
                     // Update
                     // Go back
+                    updateTarget()
                     islogged = true
                 } else {
                     showErrorMessage = true
@@ -143,15 +151,21 @@ struct initTarget: View {
             Alert(title: Text("Invalid Data. Please check!"))
         }
     }
+    func updateTarget(){
+        Task{
+            await updateUserWeight(id: manager.userid, current_weight: manager.userInfo?.current_weight as! Double, target_weight: target_weight)
+        }
+    }
 }
 
 
 struct initFoodRecording: View {
-    @State private var breakfast = false
-    @State private var lunch = false
-    @State private var dinner = false
-    @State private var dislike = ""
-    @State private var allergies = ""
+    @State private var breakfast = 0
+    @State private var lunch = 0
+    @State private var dinner = 0
+    @State private var snack = 0
+    @State private var dislike = []
+    @State private var allergies = []
     var body: some View {
         NavigationView{
         
@@ -182,14 +196,14 @@ struct initFoodRecording: View {
                             
                             Spacer()
                             Button(action:{
-                                if(self.breakfast == false){
-                                    self.breakfast = true
+                                if(self.breakfast == 0){
+                                    self.breakfast = 1
                                 }
                                 else{
-                                    self.breakfast = false
+                                    self.breakfast = 0
                                 }
                             }, label:{
-                                Image(self.breakfast == true ? "check" : "uncheck")
+                                Image(self.breakfast == 1 ? "check" : "uncheck")
                                     .resizable()
                                     .frame(width: 40, height: 40)
                             })
@@ -200,14 +214,14 @@ struct initFoodRecording: View {
                             Text("lunch")
                             Spacer()
                             Button(action:{
-                                if(self.lunch == false){
-                                    self.lunch = true
+                                if(self.lunch == 0){
+                                    self.lunch = 1
                                 }
                                 else{
-                                    self.lunch = false
+                                    self.lunch = 0
                                 }
                             }, label:{
-                                Image(self.lunch == true ? "check" : "uncheck")
+                                Image(self.lunch == 1 ? "check" : "uncheck")
                                     .resizable()
                                     .frame(width: 40, height: 40)
                             })
@@ -218,14 +232,31 @@ struct initFoodRecording: View {
                             
                             Spacer()
                             Button(action:{
-                                if(self.dinner == false){
-                                    self.dinner = true
+                                if(self.dinner == 0){
+                                    self.dinner = 1
                                 }
                                 else{
-                                    self.dinner = false
+                                    self.dinner = 0
                                 }
                             }, label:{
-                                Image(self.dinner == true ? "check" : "uncheck")
+                                Image(self.dinner == 1 ? "check" : "uncheck")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            })
+                        }
+                        HStack(){
+                            Text("snack")
+                            
+                            Spacer()
+                            Button(action:{
+                                if(self.snack == 0){
+                                    self.snack = 1
+                                }
+                                else{
+                                    self.snack = 0
+                                }
+                            }, label:{
+                                Image(self.snack == 1 ? "check" : "uncheck")
                                     .resizable()
                                     .frame(width: 40, height: 40)
                             })
@@ -242,6 +273,7 @@ struct initFoodRecording: View {
                         print(breakfast)
                         print(lunch)
                         print(dinner)
+                        print(snack)
                         print(dislike)
                         print(allergies)
                     }
@@ -250,11 +282,19 @@ struct initFoodRecording: View {
             }
         }
     }
+    func updatePref(){
+        Task{
+            await sendPref(id:manager.userid, breakfast: breakfast, lunch: lunch, dinner: dinner, snack: snack, dislike: dislike as! [String], allergies: allergies as! [String])
+        }
+    }
 }
 
 
 struct InitDislikeFood: View {
-
+    @State private var breakfast = 0
+    @State private var lunch = 0
+    @State private var dinner = 0
+    @State private var snack = 0
     @State private var Marzipan = false
     @State private var Olives = false
     @State private var Onions = false
@@ -264,7 +304,8 @@ struct InitDislikeFood: View {
     @State private var Fish  = false
     @State private var Liver  = false
     @State private var Oysters  = false
-    
+    @State private var DislikeList  = []
+    @State private var allergies = []
     var body: some View {
         
             ZStack{
@@ -293,9 +334,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Marzipan == false){
                                     self.Marzipan = true
+                                    self.DislikeList.append("cheese")
                                 }
                                 else{
                                     self.Marzipan = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "cheese"}
                                 }
                             }, label:{
                                 Image(self.Marzipan == true ? "check" : "uncheck")
@@ -311,9 +354,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Olives == false){
                                     self.Olives = true
+                                    self.DislikeList.append("olives")
                                 }
                                 else{
                                     self.Olives = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "olives"}
                                 }
                             }, label:{
                                 Image(self.Olives == true ? "check" : "uncheck")
@@ -329,9 +374,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Onions == false){
                                     self.Onions = true
+                                    self.DislikeList.append("onions")
                                 }
                                 else{
                                     self.Onions = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "onions"}
                                 }
                             }, label:{
                                 Image(self.Onions == true ? "check" : "uncheck")
@@ -346,9 +393,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Sushi == false){
                                     self.Sushi = true
+                                    self.DislikeList.append("sushi")
                                 }
                                 else{
                                     self.Sushi = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "sushi"}
                                 }
                             }, label:{
                                 Image(self.Sushi == true ? "check" : "uncheck")
@@ -363,9 +412,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Broccoli == false){
                                     self.Broccoli = true
+                                    self.DislikeList.append("broccoli")
                                 }
                                 else{
                                     self.Broccoli = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "broccoli"}
                                 }
                             }, label:{
                                 Image(self.Broccoli == true ? "check" : "uncheck")
@@ -380,9 +431,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Tofu == false){
                                     self.Tofu = true
+                                    self.DislikeList.append("tofu")
                                 }
                                 else{
                                     self.Tofu = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "tofu"}
                                 }
                             }, label:{
                                 Image(self.Tofu == true ? "check" : "uncheck")
@@ -397,9 +450,11 @@ struct InitDislikeFood: View {
                             Button(action:{
                                 if(self.Fish == false){
                                     self.Fish = true
+                                    self.DislikeList.append("")
                                 }
                                 else{
                                     self.Fish = false
+                                    DislikeList = DislikeList.filter(){$0 as! String != "fish"}
                                 }
                             }, label:{
                                 Image(self.Fish == true ? "check" : "uncheck")
@@ -416,9 +471,11 @@ struct InitDislikeFood: View {
                         Button(action:{
                             if(self.Liver == false){
                                 self.Liver = true
+                                self.DislikeList.append("liver")
                             }
                             else{
                                 self.Liver = false
+                                DislikeList = DislikeList.filter(){$0 as! String != "liver"}
                             }
                         }, label:{
                             Image(self.Liver == true ? "check" : "uncheck")
@@ -433,9 +490,11 @@ struct InitDislikeFood: View {
                         Button(action:{
                             if(self.Oysters == false){
                                 self.Oysters = true
+                                self.DislikeList.append("oysters")
                             }
                             else{
                                 self.Oysters = false
+                                DislikeList = DislikeList.filter(){$0 as! String != "oysters"}
                             }
                         }, label:{
                             Image(self.Oysters == true ? "check" : "uncheck")
@@ -452,13 +511,20 @@ struct InitDislikeFood: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .onSubmit {
-                            print(Marzipan)
+                        print(self.DislikeList)
+                        updateDislike()
                     }
                 }
                 .padding(.horizontal, 35.0)
             }
         
     }
+    func updateDislike(){
+        Task{
+            await sendPref(id:manager.userid, breakfast: breakfast, lunch: lunch, dinner: dinner, snack: snack, dislike: DislikeList as! [String], allergies: allergies as! [String])
+        }
+    }
+    
 }
 
 struct InitAllergies: View {
@@ -636,6 +702,6 @@ struct InitAllergies: View {
 
 struct initFoodRecording_preview: PreviewProvider {
     static var previews: some View {
-        initWeight()
+        DislikeFood()
     }
 }

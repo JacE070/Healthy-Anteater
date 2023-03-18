@@ -99,8 +99,10 @@ func getFoodList() async -> [Food] {
     let path = "/food"
     let request = makeRequest(path: path, method: "POST", body: ["userid": manager.getUserId()])
     do {
-        let (data, _) = try await URLSession.shared.data(for: request)
+        let (data, res) = try await URLSession.shared.data(for: request)
+        print(res)
         let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
+        print(json)
         let foodList = toFoodList(json: json!)
         return foodList
     }

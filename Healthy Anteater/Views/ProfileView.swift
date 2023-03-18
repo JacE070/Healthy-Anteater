@@ -26,7 +26,8 @@ struct ProfileView: View {
                             .aspectRatio(contentMode: .fit)
                             .padding(20)
                         VStack{
-                            Text("Your current completeness is:")
+                            Text("Completeness")
+                            Text("Score")
                                 
                             
                             ZStack{

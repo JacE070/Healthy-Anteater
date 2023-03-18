@@ -10,7 +10,7 @@ import Foundation
 public struct Food: Identifiable {
     public let id: Int
     let name: String
-    let description: String
+//    let description: String
     let calories: Int
     let contains: [String]
     var checked: Bool

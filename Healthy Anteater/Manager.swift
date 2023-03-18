@@ -324,14 +324,15 @@ func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislik
 func toFoodList(json: [[String: Any]]) -> [Food] {
     var foodList = [Food]()
     json.forEach { item in
-        let food = Food(id: item["food_id"] as! Int,
+        let food = Food(id: item["foodid"] as! Int,
                         name: item["name"] as! String,
-                        description: item["description"] as! String,
+//                        description: item["description"] as! String,
                         calories: item["calories"] as! Int,
-                        contains: [item["contains"] as! String],
-                        checked: (item["checked"] != nil))
+                        contains: item["contains"] as! [String],
+                        checked: item["checked"] as! Int == 1)
         foodList.append(food)
     }
+    print(foodList.count)
     return foodList
 }
 
@@ -347,8 +348,8 @@ func toUserInfo(json: [String: Any]) -> UserInfo {
 }
 
 func toUserInfoMain(json: [String: Any]) -> UserInfoMain {
-    let fake_food_list = [Food(id: 0, name: "Food 1", description: "Food1 Description", calories: 500, contains: ["Peanuts"], checked: false),
-                          Food(id: 1, name: "Food 2", description: "Food2 Description", calories: 500, contains: ["Seafood"], checked: true)]
+    let fake_food_list = [Food(id: 0, name: "Food 1", calories: 500, contains: ["Peanuts"], checked: false),
+                          Food(id: 1, name: "Food 2", calories: 500, contains: ["Seafood"], checked: true)]
     return UserInfoMain(id: json["userid"] as! Int,
                     user_name: json["username"] as! String,
                     current_weight: json["weight"] as! Double,

@@ -9,24 +9,15 @@ import SwiftUI
 
 struct RecommendationView: View {
     var body: some View {
-        VStack(){
-            Image("image_placeholder")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(30)
-            VStack(alignment: .leading){
-//                Text("Welcome")
-//                    .font(.title)
-//                    .fontWeight(.heavy)
-//                Text("are you ready to be an Healthy Anteater?")
-//                    .font(.title2)
-//                Text("A healthy lifestyle is the first step towars success; improve your health index by using the Healthy Anteater App!")
-                Text("Here are recommendations we prepare for you!")
-                    .font(.headline)
-                    .fontWeight(.medium)
-            }.padding(.horizontal, 30.0)
-            Spacer();
-            RecommendationList()
+        GeometryReader { g in
+            ScrollView {
+                VStack(){
+                    Header()
+                    Spacer();
+                    RecommendationList()
+                        .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
+                }
+            }
         }
     }
 }
@@ -57,5 +48,19 @@ struct RecommendationList: View {
             .task {
                 foodList = await getFoodList()
             }
+    }
+}
+
+struct Header: View {
+    var body: some View {
+        Image("image_placeholder")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding(30)
+        VStack(alignment: .leading){
+            Text("Here are recommendations we prepare for you!")
+                .font(.headline)
+                .fontWeight(.medium)
+        }.padding(.horizontal, 30.0)
     }
 }

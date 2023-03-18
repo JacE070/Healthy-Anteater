@@ -9,6 +9,7 @@
 import Foundation
 import HealthKit
 
+@MainActor
 class HealthKitViewModel: ObservableObject {
     
     private var healthStore = HKHealthStore()
@@ -31,18 +32,17 @@ class HealthKitViewModel: ObservableObject {
     func changeAuthorizationStatus() {
         guard let stepQtyType = HKObjectType.quantityType(forIdentifier: .stepCount) else { return }
         let status = self.healthStore.authorizationStatus(for: stepQtyType)
-        
-        switch status {
-        case .notDetermined:
-            isAuthorized = false
-        case .sharingDenied:
-            isAuthorized = false
-        case .sharingAuthorized:
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            switch status {
+            case .notDetermined:
+                self.isAuthorized = false
+            case .sharingDenied:
+                self.isAuthorized = false
+            case .sharingAuthorized:
                 self.isAuthorized = true
+            @unknown default:
+                self.isAuthorized = false
             }
-        @unknown default:
-            isAuthorized = false
         }
     }
     
@@ -55,7 +55,9 @@ class HealthKitViewModel: ObservableObject {
 //                }
 //            }
 //        }
-        userStepCount = "8888"
+        DispatchQueue.main.async {
+            self.userStepCount = "8888"
+        }
     }
     
 }

@@ -50,7 +50,7 @@ struct ProfileView: View {
                         if vm.isAuthorized {
                             // display step count
                             Text("Your today's step count is: ")
-                            Text(vm.userStepCount)
+                            Text(String(vm.userStepCount))
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -95,6 +95,10 @@ struct ProfileView: View {
                             .fontWeight(.heavy)
                             .padding(10)
                         Text("\(rec_cal - taken_cal)")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 5)
                     }
                     
                 }
@@ -108,6 +112,9 @@ struct ProfileView: View {
                 vm.readStepsTakenToday()
             }
             Task {
+                if vm.isAuthorized {
+                    await updateUserStep(step: vm.userStepCount)
+                }
                 await refresh()
                 taken_cal = Int(manager.userInfoMain!.taken_calories)
                 rec_cal = Int(manager.userInfoMain!.rec_calories)

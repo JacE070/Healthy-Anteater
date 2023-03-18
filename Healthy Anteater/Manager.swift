@@ -117,10 +117,8 @@ func finishFoodRec(user_id: Int, food_id: Int) async {
     let request = makeRequest(path: path, method: "PUT", body: ["id": user_id, "foodid": food_id])
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-//        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
         manager.userInfo = await getUserInfo(userid: user_id)
         manager.userInfoMain = await getUserInfoMain(userid: user_id)
-        print(manager.userInfoMain)
     }
     catch {
         
@@ -209,8 +207,6 @@ func updateUserInfo(id: Int, gender: String, age: Int, height: Double ,current_w
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-        print(res)
         
         manager.userInfo = await getUserInfo(userid: id)
         manager.userInfoMain = await getUserInfoMain(userid: id)
@@ -226,7 +222,6 @@ func updateUserWeight(id: Int, current_weight: Double, target_weight: Double) as
     // weight: float
     // target: float
     let path = "/user/weight"
-    print(target_weight)
     let body: [String: Any] = [
         "id": id,
         "weight": current_weight,
@@ -235,11 +230,7 @@ func updateUserWeight(id: Int, current_weight: Double, target_weight: Double) as
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-        print(res)
         manager.userInfo = await getUserInfo(userid: id)
-    
-        print(manager.userInfo)
         manager.userInfoMain = await getUserInfoMain(userid: id)
     }
     catch {
@@ -251,11 +242,8 @@ func sendRegister(username: String, password: String) async -> Bool {
     let path = "/user/register"
     let request = makeRequest(path: path, method: "POST", body: ["id": 0, "username": username, "password": password])
     do {
-//        print(request.httpMethod!)
-//        print(try JSONSerialization.jsonObject(with: request.httpBody!))
         let (data, res) = try await URLSession.shared.data(for: request)
         if let r = res as? HTTPURLResponse {
-            print(r.statusCode)
             if (r.statusCode == 200) {
                 let path = "/user/login"
                 let request = makeRequest(path: path, method: "POST", body: ["username": username, "password": password])
@@ -288,7 +276,6 @@ func sendLogin(username: String, password: String) async -> Bool {
         }
         manager.userInfo = await getUserInfo(userid: json!["id"] as! Int)
         manager.userInfoMain = await getUserInfoMain(userid: json!["id"] as! Int)
-        print(manager.userInfoMain)
         manager.userid = json!["id"] as! Int
     }
     catch {
@@ -308,15 +295,27 @@ func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislik
         "dislike":dislike,
         "allergies":allergies,
     ]
-    print(body)
     let request = makeRequest(path: path, method: "PUT", body: body)
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
-        //let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
-        print(res)
         manager.userInfo = await getUserInfo(userid: id)
         manager.userInfoMain = await getUserInfoMain(userid: id)
         await getPreference()
+    }
+    catch {
+        
+    }
+}
+
+func updateUserStep(step: Int) async {
+    let path = "/step"
+    let body: [String: Any] = [
+        "userid": manager.getUserId(),
+        "steps": step
+    ]
+    let request = makeRequest(path: path, method: "PUT", body: body)
+    do {
+        try await URLSession.shared.data(for: request)
     }
     catch {
         
@@ -339,7 +338,6 @@ func toFoodList(json: [[String: Any]]) -> [Food] {
                         checked: item["checked"] as! Int == 1)
         foodList.append(food)
     }
-    print(foodList.count)
     return foodList
 }
 

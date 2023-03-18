@@ -9,12 +9,12 @@ import SwiftUI
 
 struct UpdateWeightView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var gender = "Required"
-    let genders = ["Required", "Male", "Female"]
-    @State private var age: Int? = nil
-    @State private var weight: Double? = nil
-    @State private var height: Double? = nil
+    @State private var gender = manager.userInfo!.gender
+    @State private var age: Int? = manager.userInfo!.age
+    @State private var weight: Double? = manager.userInfo!.current_weight
+    @State private var height: Double? = manager.userInfo!.height
     @State private var showErrorMessage = false
+    let genders = ["Required", "Male", "Female"]
     var body: some View {
         VStack(alignment:.center){
             VStack(alignment: .leading){
@@ -57,6 +57,9 @@ struct UpdateWeightView: View {
             Button("Submit") {
                 if (Manager.checkUpdateWeight(gender: gender, age: age, weight: weight, height: height)){
                     // Update
+                    Task {
+                        await updateUserInfo(id: manager.getUserId(), gender: gender, age: age!, height: height!, current_weight: weight!, target_weight: manager.userInfoMain!.target_weight)
+                    }
                     // Go back
                     self.mode.wrappedValue.dismiss()
                 } else {
@@ -71,6 +74,11 @@ struct UpdateWeightView: View {
         .alert(isPresented: $showErrorMessage){
             () -> Alert in
             Alert(title: Text("Invalid Data. Please check!"))
+        }.onAppear {
+            gender = manager.userInfo!.gender
+            age = manager.userInfo!.age
+            weight = manager.userInfo!.current_weight
+            height = manager.userInfo!.height
         }
     }
 }

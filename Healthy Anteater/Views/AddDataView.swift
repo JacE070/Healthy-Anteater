@@ -50,7 +50,7 @@ struct AddDataView: View {
                     .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     NavigationLink(destination: UpdateWeightView(), label:{
-                       Text("Update Weight    ")
+                       Text("Update Current Info    ")
                     })
                     .padding(.all)
                     .buttonStyle(.borderedProminent)

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UpdateTargetView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State private var target_weight: Double? = nil
+    @State private var target_weight: Double? = manager.userInfo?.target_weight
     @State private var showErrorMessage = false
     var body: some View {
         VStack(alignment:.center){
@@ -26,7 +26,7 @@ struct UpdateTargetView: View {
                     .fontWeight(.heavy)
                     .padding(.bottom, 30.0)
                 Group{
-                    Text("Please enter your weight in kg:")
+                    Text("Please enter your target weight in kg:")
                     TextField("Required", value: $target_weight, format: .number)
                         .padding(.bottom, 10)
                 }
@@ -37,6 +37,11 @@ struct UpdateTargetView: View {
             Button("Submit") {
                 if target_weight != nil && target_weight! > 0{
                     // Update
+                    Task {
+                        await updateUserWeight(id: manager.getUserId(),
+                                               current_weight:manager.userInfo!.current_weight ,
+                                               target_weight: target_weight!)
+                    }
                     // Go back
                     self.mode.wrappedValue.dismiss()
                 } else {
@@ -51,6 +56,9 @@ struct UpdateTargetView: View {
         .alert(isPresented: $showErrorMessage){
             () -> Alert in
             Alert(title: Text("Invalid Data. Please check!"))
+        }
+        .onAppear {
+            target_weight = manager.userInfo?.target_weight
         }
     }
 }

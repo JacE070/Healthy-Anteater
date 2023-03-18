@@ -44,15 +44,19 @@ struct RecommendationList: View {
                         
                 }
                 Spacer()
-                Button("Finish"){
-                    // Call method in Manager to update data
-                    Task {
-                        await finishFoodRec(user_id: manager.getUserId(), food_id: food.id)
-                        foodList = foodList.filter {$0.id != food.id}
-                        showSuccessMessage = true
+                if food.checked {
+                    Text("Checked")
+                } else {
+                    Button("Finish"){
+                        // Call method in Manager to update data
+                        Task {
+                            await finishFoodRec(user_id: manager.getUserId(), food_id: food.id)
+                            foodList = await getFoodList()
+                            showSuccessMessage = true
+                        }
                     }
+                    .buttonStyle(.borderedProminent)
                 }
-                .buttonStyle(.borderedProminent)
             }
         }.scrollContentBackground(.hidden)
             .task {

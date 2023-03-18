@@ -14,7 +14,7 @@ class HealthKitViewModel: ObservableObject {
     
     private var healthStore = HKHealthStore()
     private var healthKitManager = HealthKitManager()
-    @Published var userStepCount = ""
+    @Published var userStepCount = 8888
     @Published var isAuthorized = false
     
     init() {
@@ -56,7 +56,7 @@ class HealthKitViewModel: ObservableObject {
 //            }
 //        }
         DispatchQueue.main.async {
-            self.userStepCount = "8888"
+            self.userStepCount = 8888
         }
     }
     

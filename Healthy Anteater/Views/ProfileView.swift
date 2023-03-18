@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var vm: HealthKitViewModel
+    @State var taken_cal: Double = 0
+    @State var rec_cal: Double = 0
     var body: some View {
         ZStack{
             Color(UIColor(red: 0.783, green: 0.906, blue: 0.958, alpha: 1))
@@ -26,7 +28,7 @@ struct ProfileView: View {
                             
                             ZStack{
                                 Circle().frame(width: 100, height:100).foregroundColor(Color(UIColor(red: 0.785, green: 0.762, blue: 0.851, alpha: 1)))
-                                Text("20%")
+                                Text(String(format: "%.1f%%", abs(Double(taken_cal) / Double(rec_cal)) * 100))
                             }
                         }
                     }
@@ -91,6 +93,11 @@ struct ProfileView: View {
         }.onAppear {
             if (vm.isAuthorized) {
                 vm.readStepsTakenToday()
+            }
+            Task {
+                await refresh()
+                taken_cal = Double(manager.userInfoMain!.taken_calories)
+                rec_cal = Double(manager.userInfoMain!.rec_calories)
             }
         }
     }

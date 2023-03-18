@@ -211,8 +211,6 @@ func updateUserInfo(id: Int, gender: String, age: Int, height: Double ,current_w
         
         manager.userInfo = await getUserInfo(userid: id)
         manager.userInfoMain = await getUserInfoMain(userid: id)
-        print(manager.userInfo?.current_weight)
-        
     }
     catch {
         
@@ -319,6 +317,11 @@ func sendPref(id: Int, breakfast: Int, lunch: Int, dinner:Int, snack:Int, dislik
     catch {
         
     }
+}
+
+func refresh() async {
+    manager.userInfo = await getUserInfo(userid: manager.getUserId())
+    manager.userInfoMain = await getUserInfoMain(userid: manager.getUserId())
 }
 
 func toFoodList(json: [[String: Any]]) -> [Food] {

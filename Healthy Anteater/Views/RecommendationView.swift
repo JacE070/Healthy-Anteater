@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct RecommendationView: View {
+    @State private var showSuccessMessage = false
     var body: some View {
         GeometryReader { g in
             ScrollView {
                 VStack(){
                     Header()
                     Spacer();
-                    RecommendationList()
+                    RecommendationList(showSuccessMessage: $showSuccessMessage)
                         .frame(width: g.size.width - 5, height: g.size.height - 50, alignment: .center)
                 }
             }
-        }
+        }.alert(isPresented: $showSuccessMessage){
+            () -> Alert in
+            Alert(title: Text("Success!"))
+    }
     }
 }
 
@@ -29,6 +33,7 @@ struct RecommendationView_Previews: PreviewProvider {
 }
 
 struct RecommendationList: View {
+    @Binding var showSuccessMessage: Bool
     @State var foodList = [Food]()
     var body: some View {
         List(foodList) { food in
@@ -41,6 +46,11 @@ struct RecommendationList: View {
                 Spacer()
                 Button("Finish"){
                     // Call method in Manager to update data
+                    Task {
+                        await finishFoodRec(user_id: manager.getUserId(), food_id: food.id)
+                        foodList = foodList.filter {$0.id != food.id}
+                        showSuccessMessage = true
+                    }
                 }
                 .buttonStyle(.borderedProminent)
             }

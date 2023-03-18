@@ -114,9 +114,10 @@ func finishFoodRec(user_id: Int, food_id: Int) async {
     // user_id: int
     // food_id: int
     let path = "/food"
-    let request = makeRequest(path: path, method: "PUT", body: ["userid": user_id, "foodid": food_id])
+    let request = makeRequest(path: path, method: "PUT", body: ["id": user_id, "foodid": food_id])
     do {
-        let (data, _) = try await URLSession.shared.data(for: request)
+        let (data, res) = try await URLSession.shared.data(for: request)
+        print(res)
 //        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
     }
     catch {

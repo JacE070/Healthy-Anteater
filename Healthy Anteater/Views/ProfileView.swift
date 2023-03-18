@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var vm: HealthKitViewModel
-    @State var taken_cal: Double = 0
-    @State var rec_cal: Double = 0
+    
+    @State var taken_cal: Int = manager.userInfoMain?.taken_calories as! Int
+    @State var rec_cal: Int = manager.userInfoMain?.rec_calories as! Int
+    @State var foodList = manager.userInfoMain?.food_list as![Food]
+    
     var body: some View {
         ZStack{
             Color(UIColor(red: 0.783, green: 0.906, blue: 0.958, alpha: 1))
@@ -28,7 +31,7 @@ struct ProfileView: View {
                             
                             ZStack{
                                 Circle().frame(width: 100, height:100).foregroundColor(Color(UIColor(red: 0.785, green: 0.762, blue: 0.851, alpha: 1)))
-                                Text(String(format: "%.1f%%", abs(Double(taken_cal) / Double(rec_cal)) * 100))
+                                Text(String(format: "%.2f%%", Double(taken_cal) / Double(rec_cal) * 100))
                             }
                         }
                     }
@@ -70,18 +73,28 @@ struct ProfileView: View {
                         }
                     }
                     Group{
-                        Text("Food :")
+                        Text("Food taken:")
                             .font(.title)
                             .fontWeight(.heavy)
                             .padding(10)
-                        Text("Calorie intake summary and anaylsis")
+                        List(foodList) { food in
+                            HStack(){
+                                VStack(alignment: .leading){
+                                    Text(food.name)
+                                    Text("Calories: " + String(food.calories))
+                                }
+                            }
+                        }.scrollContentBackground(.hidden)
+                            .task {
+                                foodList = manager.userInfoMain?.food_list as![Food]
+                            }
                     }
                     Group{
-                        Text("Today :")
+                        Text("Calories left :")
                             .font(.title)
                             .fontWeight(.heavy)
                             .padding(10)
-                        Text("List target calories")
+                        Text("\(rec_cal - taken_cal)")
                     }
                     
                 }
@@ -96,8 +109,8 @@ struct ProfileView: View {
             }
             Task {
                 await refresh()
-                taken_cal = Double(manager.userInfoMain!.taken_calories)
-                rec_cal = Double(manager.userInfoMain!.rec_calories)
+                taken_cal = Int(manager.userInfoMain!.taken_calories)
+                rec_cal = Int(manager.userInfoMain!.rec_calories)
             }
         }
     }

@@ -118,6 +118,9 @@ func finishFoodRec(user_id: Int, food_id: Int) async {
     do {
         let (data, res) = try await URLSession.shared.data(for: request)
 //        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]]
+        manager.userInfo = await getUserInfo(userid: user_id)
+        manager.userInfoMain = await getUserInfoMain(userid: user_id)
+        print(manager.userInfoMain)
     }
     catch {
         
@@ -285,6 +288,7 @@ func sendLogin(username: String, password: String) async -> Bool {
         }
         manager.userInfo = await getUserInfo(userid: json!["id"] as! Int)
         manager.userInfoMain = await getUserInfoMain(userid: json!["id"] as! Int)
+        print(manager.userInfoMain)
         manager.userid = json!["id"] as! Int
     }
     catch {
@@ -359,8 +363,7 @@ func toUserInfoMain(json: [String: Any]) -> UserInfoMain {
                     target_weight: json["target"] as! Double,
                     rec_calories: json["calories"] as! Int,
                     taken_calories: json["taken"] as! Int,
-                    food_list: is_mock ? fake_food_list :
-                        toFoodList(json: json["foodlist"] as! [[String : Any]]))
+                    food_list: toFoodList(json: json["foodlist"] as! [[String : Any]]))
     }
 
 func toUserPref(json: [String: Any]) -> UserPreference {
